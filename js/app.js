@@ -177,7 +177,8 @@ window.App = {
       'initContactForm',
       'initSmoothScroll',
       'initHeader',
-      'initMobileMenu'
+      'initMobileMenu',
+      'initPromotionsBanner'
     ];
 
     modules.forEach(function (fn) {

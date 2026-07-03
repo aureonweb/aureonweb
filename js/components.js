@@ -547,3 +547,158 @@ Components.initMobileMenu = function () {
     }
   });
 };
+
+/* ─────────────────────────────────────────────
+   8. Promotions Banner (Carousel)
+   ───────────────────────────────────────────── */
+Components.initPromotionsBanner = function () {
+  var overlay = document.getElementById('promo-banner-overlay');
+  if (!overlay) return;
+
+  var carousel = document.getElementById('promo-carousel');
+  var btnClose = document.querySelector('.promo-close');
+  var btnPrev = document.querySelector('.promo-prev');
+  var btnNext = document.querySelector('.promo-next');
+  
+  var footerBtn = document.getElementById('footer-promo-btn');
+
+  var currentSlide = 0;
+  var slidesCount = 0;
+  var autoAdvanceInterval = null;
+
+  // Open the banner manually
+  function openBanner(e) {
+    if (e) e.preventDefault();
+    if (slidesCount > 0) {
+      overlay.style.display = 'flex';
+      // Small timeout to allow display:flex to apply before transition
+      setTimeout(function() {
+        overlay.classList.add('show');
+        resetInterval();
+      }, 10);
+    }
+  }
+
+  // Close the banner
+  function closeBanner() {
+    overlay.classList.remove('show');
+    clearInterval(autoAdvanceInterval);
+    setTimeout(function() {
+      overlay.style.display = 'none';
+    }, 400); // match transition duration
+  }
+
+  function showSlide(index) {
+    var slides = carousel.querySelectorAll('.promo-slide');
+    if (!slides.length) return;
+    
+    // Wrap around
+    if (index >= slides.length) index = 0;
+    if (index < 0) index = slides.length - 1;
+    
+    slides.forEach(function(s, i) {
+      if (i === index) {
+        s.classList.add('active');
+      } else {
+        s.classList.remove('active');
+      }
+    });
+    currentSlide = index;
+  }
+
+  function nextSlide() {
+    showSlide(currentSlide + 1);
+    resetInterval();
+  }
+
+  function prevSlide() {
+    showSlide(currentSlide - 1);
+    resetInterval();
+  }
+
+  function resetInterval() {
+    clearInterval(autoAdvanceInterval);
+    autoAdvanceInterval = setInterval(nextSlide, 5000);
+  }
+
+  // Fetch promotions
+  fetch('data/lecciones.json?t=' + Date.now())
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      var promotions = data.promotions || [];
+      if (!promotions.length) return;
+      
+      slidesCount = promotions.length;
+      
+      // Determine language
+      var lang = 'es';
+      if (window.I18n && typeof window.I18n.getCurrentLanguage === 'function') {
+        lang = window.I18n.getCurrentLanguage();
+      }
+      
+      var html = promotions.map(function(p, i) {
+        var title = p.title && p.title[lang] ? p.title[lang] : (p.title && p.title.es ? p.title.es : '');
+        var text = p.text && p.text[lang] ? p.text[lang] : (p.text && p.text.es ? p.text.es : '');
+        var dates = p.dates && p.dates[lang] ? p.dates[lang] : (p.dates && p.dates.es ? p.dates.es : '');
+        
+        return '' +
+          '<div class="promo-slide" style="background-image: url(\'' + p.image + '\')">' +
+            '<div class="promo-content">' +
+              '<h2 class="promo-title">' + title + '</h2>' +
+              '<div class="promo-meta">' +
+                (p.price ? '<span><i class="bi bi-tag-fill"></i> ' + p.price + '</span>' : '') +
+                (dates ? '<span><i class="bi bi-calendar-event-fill"></i> ' + dates + '</span>' : '') +
+              '</div>' +
+              '<p class="promo-text">' + text + '</p>' +
+              '<a href="#contact" class="cta-button filled btn-contact-promo" style="display:inline-block; font-size: 0.95rem;">Contactar / Inscribirse</a>' +
+            '</div>' +
+          '</div>';
+      }).join('');
+      
+      carousel.innerHTML = html;
+      showSlide(0);
+
+      // Bind closing events
+      if (btnClose) btnClose.addEventListener('click', closeBanner);
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closeBanner();
+      });
+
+      // Bind footer button
+      if (footerBtn) {
+        footerBtn.addEventListener('click', openBanner);
+      }
+      
+      // Bind arrows
+      if (btnPrev) btnPrev.addEventListener('click', prevSlide);
+      if (btnNext) btnNext.addEventListener('click', nextSlide);
+
+      // Close when clicking the contact button
+      var contactBtns = carousel.querySelectorAll('.btn-contact-promo');
+      contactBtns.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation(); // prevent global smooth scroll from intercepting
+          closeBanner();
+          var targetEl = document.querySelector('#contact');
+          if (targetEl) {
+            var HEADER_OFFSET = 80;
+            var targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+
+      // Auto-open on first load after a small delay
+      setTimeout(function() {
+        openBanner();
+      }, 1500);
+      
+    })
+    .catch(function(err) {
+      console.warn('Error fetching promotions:', err);
+    });
+};

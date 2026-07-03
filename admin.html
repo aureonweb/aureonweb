@@ -47,6 +47,7 @@
         <!-- Pestañas -->
         <div class="admin-tabs">
             <button class="admin-tab active" data-tab="content"><i class="bi bi-collection-play"></i> Contenido</button>
+            <button class="admin-tab" data-tab="promotions"><i class="bi bi-megaphone"></i> Promociones</button>
             <button class="admin-tab" data-tab="settings"><i class="bi bi-sliders"></i> Ajustes</button>
             <button class="admin-tab" data-tab="connect"><i class="bi bi-github"></i> Conexión</button>
             <button class="admin-tab" data-tab="help"><i class="bi bi-question-circle"></i> Ayuda</button>
@@ -64,6 +65,20 @@
 
             <div class="admin-actions-row">
                 <button class="btn filled" id="btn-add-module"><i class="bi bi-plus-lg"></i> Agregar módulo</button>
+            </div>
+        </div>
+
+        <!-- ===== PANE: PROMOCIONES ===== -->
+        <div class="admin-pane" id="pane-promotions">
+            <div class="inline-note">
+                Administra las <b>promociones</b> que aparecen en el banner flotante al abrir la página.
+                Se muestran como un carrusel.
+            </div>
+
+            <div id="promotions-host"></div>
+
+            <div class="admin-actions-row">
+                <button class="btn filled" id="btn-add-promotion"><i class="bi bi-plus-lg"></i> Agregar promoción</button>
             </div>
         </div>
 

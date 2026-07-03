@@ -147,11 +147,13 @@
     bindSettings();
     bindConnect();
     bindModulesHost();
+    bindPromotionsHost();
     renderHelp();
 
     loadDraft().then(function () {
       loadSettingsIntoForm();
       renderModules();
+      renderPromotions();
     });
   }
 
@@ -173,6 +175,7 @@
   /* ---- Barra superior ---- */
   function bindTopbar() {
     $('#btn-add-module').addEventListener('click', addModule);
+    $('#btn-add-promotion').addEventListener('click', addPromotion);
     $('#btn-publish').addEventListener('click', publish);
     $('#btn-export').addEventListener('click', exportJson);
     $('#btn-import').addEventListener('click', function () { $('#import-file').click(); });
@@ -220,6 +223,9 @@
   function getModule(id) {
     return draft.modules.filter(function (m) { return m.id === id; })[0];
   }
+  function getPromotion(id) {
+    return draft.promotions.filter(function (p) { return p.id === id; })[0];
+  }
   function getLesson(modId, lesId) {
     var m = getModule(modId);
     if (!m) return null;
@@ -240,6 +246,59 @@
   }
   function getStudentCode() {
     try { return (localStorage.getItem(K.code) || '').trim(); } catch (_e) { return ''; }
+  }
+
+  /* ─────────────────────────────────────────────
+     Render del editor de promociones
+     ───────────────────────────────────────────── */
+  var openPromotions = {};
+
+  function renderPromotions() {
+    var host = $('#promotions-host');
+    if (!draft.promotions || !draft.promotions.length) {
+      host.innerHTML = '<div class="inline-note">Aún no hay promociones. Pulsa <b>Agregar promoción</b> para empezar.</div>';
+      return;
+    }
+    host.innerHTML = draft.promotions.map(function (p, i) {
+      return promotionHTML(p, i);
+    }).join('');
+  }
+
+  function promotionHTML(p, idx) {
+    var open = !!openPromotions[p.id];
+    var name = AD.pickLang(p.title) || '(promoción sin título)';
+
+    return '' +
+    '<div class="mod-editor' + (open ? ' open' : '') + '" data-id="' + esc(p.id) + '">' +
+      '<div class="mod-editor-head">' +
+        '<span class="drag-num">' + (idx + 1) + '</span>' +
+        '<span class="mod-name">' + esc(name) + '</span>' +
+        '<span class="row-tools">' +
+          toolBtn('promo-up', p.id, '', 'bi-arrow-up', 'Subir') +
+          toolBtn('promo-down', p.id, '', 'bi-arrow-down', 'Bajar') +
+          toolBtn('promo-del', p.id, '', 'bi-trash', 'Eliminar', true) +
+        '</span>' +
+        '<i class="bi bi-chevron-down chev"></i>' +
+      '</div>' +
+      '<div class="mod-editor-body">' +
+        fieldRow(
+          textField('promo', p.id, '', 'title.es', 'Título', 'ES', p.title.es),
+          textField('promo', p.id, '', 'title.en', 'Title', 'EN', p.title.en)
+        ) +
+        fieldRow(
+          areaField('promo', p.id, '', 'text.es', 'Texto', 'ES', p.text.es),
+          areaField('promo', p.id, '', 'text.en', 'Text', 'EN', p.text.en)
+        ) +
+        fieldRow(
+          textField('promo', p.id, '', 'price', 'Precio (texto libre)', '', p.price),
+          textField('promo', p.id, '', 'image', 'Imagen (ej. assets/s01.png)', '', p.image)
+        ) +
+        fieldRow(
+          textField('promo', p.id, '', 'dates.es', 'Fechas', 'ES', p.dates.es),
+          textField('promo', p.id, '', 'dates.en', 'Dates', 'EN', p.dates.en)
+        ) +
+      '</div>' +
+    '</div>';
   }
 
   /* ─────────────────────────────────────────────
@@ -441,6 +500,44 @@
   }
   function cssEsc(s) { return String(s).replace(/["\\]/g, '\\$&'); }
 
+  function updatePromoName(id) {
+    var p = getPromotion(id);
+    var node = $('.mod-editor[data-id="' + cssEsc(id) + '"] .mod-name');
+    if (p && node) node.textContent = AD.pickLang(p.title) || '(promoción sin título)';
+  }
+
+  function bindPromotionsHost() {
+    var host = $('#promotions-host');
+
+    host.addEventListener('input', function (e) {
+      var t = e.target;
+      if (!t.dataset || t.dataset.scope !== 'promo') return;
+      
+      var p = getPromotion(t.dataset.id);
+      if (p) setPath(p, t.dataset.path, t.value);
+      
+      updatePromoName(t.dataset.id);
+      scheduleSave();
+    });
+
+    host.addEventListener('click', function (e) {
+      var actBtn = e.target.closest('[data-act]');
+      if (actBtn) {
+        e.preventDefault();
+        handleAct(actBtn.getAttribute('data-act'), actBtn.getAttribute('data-id'), actBtn.getAttribute('data-mod'));
+        return;
+      }
+      var head = e.target.closest('.mod-editor-head');
+      if (head) {
+        var ed = head.closest('.mod-editor');
+        var id = ed.getAttribute('data-id');
+        var nowOpen = !ed.classList.contains('open');
+        ed.classList.toggle('open', nowOpen);
+        if (nowOpen) openPromotions[id] = true; else delete openPromotions[id];
+      }
+    });
+  }
+
   /* ---- Acciones estructurales ---- */
   function handleAct(act, id, mod) {
     switch (act) {
@@ -451,6 +548,9 @@
       case 'les-up': moveLesson(mod, id, -1); break;
       case 'les-down': moveLesson(mod, id, 1); break;
       case 'les-del': delLesson(mod, id); break;
+      case 'promo-up': movePromotion(id, -1); break;
+      case 'promo-down': movePromotion(id, 1); break;
+      case 'promo-del': delPromotion(id); break;
     }
   }
 
@@ -514,6 +614,37 @@
     var tmp = m.lessons[i]; m.lessons[i] = m.lessons[j]; m.lessons[j] = tmp;
     save();
     renderModules();
+  }
+
+  function addPromotion() {
+    var p = AD.normalizePromotion({ title: { es: 'Nueva promoción', en: '' }, image: 'assets/s01.png' });
+    if (!draft.promotions) draft.promotions = [];
+    draft.promotions.push(p);
+    openPromotions[p.id] = true;
+    save();
+    switchTab('promotions');
+    renderPromotions();
+    var node = $('.mod-editor[data-id="' + cssEsc(p.id) + '"]');
+    if (node) node.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function delPromotion(id) {
+    var p = getPromotion(id);
+    var name = (p && AD.pickLang(p.title)) || 'esta promoción';
+    if (!confirm('¿Eliminar la promoción "' + name + '"?')) return;
+    draft.promotions = draft.promotions.filter(function (x) { return x.id !== id; });
+    delete openPromotions[id];
+    save();
+    renderPromotions();
+  }
+
+  function movePromotion(id, dir) {
+    var i = draft.promotions.findIndex(function (p) { return p.id === id; });
+    var j = i + dir;
+    if (i < 0 || j < 0 || j >= draft.promotions.length) return;
+    var tmp = draft.promotions[i]; draft.promotions[i] = draft.promotions[j]; draft.promotions[j] = tmp;
+    save();
+    renderPromotions();
   }
 
   /* ─────────────────────────────────────────────

@@ -443,6 +443,18 @@
                 <a href="#" class="profile-btn-link" data-profile="indira-y-hui">INDIRA Y HUI</a>
             </div>
 
+            <!-- Contact Details -->
+            <div class="footer-contact">
+                <a href="mailto:informes.aureon@gmail.com"><i class="bi bi-envelope-fill"></i> informes.aureon@gmail.com</a>
+            </div>
+
+            <!-- Footer Promo Button -->
+            <div style="margin-top: 30px;">
+                <button id="footer-promo-btn" class="cta-button filled" style="background: var(--primary-dark); color: #fff; font-size: 1rem; border-radius: 30px; padding: 10px 25px;">
+                    <i class="bi bi-star-fill"></i> Ver Promociones
+                </button>
+            </div>
+
             <!-- Social Links -->
             <div class="social-links">
                 <a href="https://www.instagram.com/aureon.qi/" target="_blank" rel="noopener" aria-label="Instagram">
@@ -458,6 +470,22 @@
             <p><a href="#" style="color: rgba(255,255,255,0.3); font-size: 0.75rem; text-decoration: none;" data-i18n="footer.privacy">Aviso de Privacidad</a></p>
         </div>
     </footer>
+
+    <!-- ========================================
+         PROMOTIONS BANNER
+         ======================================== -->
+    <div id="promo-banner-overlay" class="promo-overlay" style="display: none;">
+        <div class="promo-modal">
+            <button class="promo-close" aria-label="Cerrar banner">&times;</button>
+            
+            <div class="promo-carousel-container" id="promo-carousel">
+                <!-- Promo slides will be injected here via JS -->
+            </div>
+
+            <button class="promo-arrow promo-prev"><i class="bi bi-chevron-left"></i></button>
+            <button class="promo-arrow promo-next"><i class="bi bi-chevron-right"></i></button>
+        </div>
+    </div>
 
     <!-- ========================================
          SCRIPTS (order matters)

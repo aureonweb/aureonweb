@@ -17,6 +17,44 @@
       }
     }
   },
+  "promotions": [
+    {
+      "id": "promo-1",
+      "title": { "es": "Retiro de Inmersión Total", "en": "Total Immersion Retreat" },
+      "text": { "es": "Únete a nuestro retiro intensivo de fin de semana para profundizar en la práctica.", "en": "Join our weekend intensive retreat to deepen the practice." },
+      "price": "$250 USD",
+      "dates": { "es": "15 al 17 de Agosto", "en": "August 15 - 17" },
+      "image": "assets/s01.png",
+      "order": 0
+    },
+    {
+      "id": "promo-2",
+      "title": { "es": "Curso de Nivel 1", "en": "Level 1 Course" },
+      "text": { "es": "Inicia tu camino en ZhìNéng QìGōng aprendiendo las bases del primer nivel.", "en": "Start your path in ZhìNéng QìGōng by learning the basics of the first level." },
+      "price": "$120 USD",
+      "dates": { "es": "Inicia 1 de Septiembre", "en": "Starts September 1st" },
+      "image": "assets/s02.png",
+      "order": 1
+    },
+    {
+      "id": "promo-3",
+      "title": { "es": "Taller de Sanación", "en": "Healing Workshop" },
+      "text": { "es": "Taller enfocado en recuperar la salud y activar el campo de curación interior.", "en": "Workshop focused on recovering health and activating the inner healing field." },
+      "price": "$50 USD",
+      "dates": { "es": "25 de Septiembre", "en": "September 25th" },
+      "image": "assets/s03.png",
+      "order": 2
+    },
+    {
+      "id": "promo-4",
+      "title": { "es": "Certificación de Instructores", "en": "Instructor Certification" },
+      "text": { "es": "Conviértete en instructor certificado y comparte el beneficio con más personas.", "en": "Become a certified instructor and share the benefit with more people." },
+      "price": "Consultar",
+      "dates": { "es": "Octubre 2026", "en": "October 2026" },
+      "image": "assets/s04.png",
+      "order": 3
+    }
+  ],
   "modules": [
     {
       "id": "mod-publico-sonidos",

@@ -301,6 +301,7 @@ window.AulaData = (function () {
           hint: { es: '', en: '' }
         }
       },
+      promotions: [],
       modules: []
     };
   }
@@ -343,6 +344,19 @@ window.AulaData = (function () {
     };
   }
 
+  function normalizePromotion(promo) {
+    promo = promo || {};
+    return {
+      id: promo.id || uid('promo'),
+      title: normLangObj(promo.title),
+      text: normLangObj(promo.text),
+      price: promo.price || '',
+      dates: normLangObj(promo.dates),
+      image: promo.image || '',
+      order: typeof promo.order === 'number' ? promo.order : 0
+    };
+  }
+
   function normalize(data) {
     var base = emptyContent();
     if (!data || typeof data !== 'object') return base;
@@ -360,6 +374,9 @@ window.AulaData = (function () {
       verifier: p.verifier || '',
       hint: normLangObj(p.hint)
     };
+
+    base.promotions = (data.promotions || []).map(normalizePromotion);
+    base.promotions.sort(function (a, b) { return a.order - b.order; });
 
     base.modules = (data.modules || []).map(normalizeModule);
     base.modules.sort(function (a, b) { return a.order - b.order; });
@@ -429,6 +446,7 @@ window.AulaData = (function () {
     normalize: normalize,
     normalizeModule: normalizeModule,
     normalizeLesson: normalizeLesson,
+    normalizePromotion: normalizePromotion,
     effectiveAccess: effectiveAccess,
     loadContent: loadContent
   };
