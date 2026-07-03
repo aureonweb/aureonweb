@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aula Virtual — Vida ZhìNéng QìGōng. Lecciones y sesiones organizadas por módulos.">
+    <title>Aula Virtual — Vida ZhìNéng QìGōng</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=DM+Sans:wght@300;400;500;600;700&family=Lora:wght@500;700&family=Montserrat:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/aula.css">
+
+    <!-- Three.js (r128) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body data-profile="hui">
+
+    <!-- BACKGROUND -->
+    <div id="canvas-container"></div>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div class="mobile-overlay"></div>
+
+    <!-- MOBILE NAV -->
+    <nav class="mobile-nav">
+        <button class="mobile-close" aria-label="Cerrar menú">&times;</button>
+
+        <div class="profile-switcher" style="margin-bottom: 20px;">
+            <button class="profile-btn" data-profile="aureon">AUREON</button>
+            <button class="profile-btn active" data-profile="hui">HUI</button>
+            <button class="profile-btn" data-profile="indira-y-hui">INDIRA Y HUI</button>
+        </div>
+
+        <a href="index.html#hero" data-i18n="nav.home">Inicio</a>
+        <a href="index.html#qigong" data-i18n="nav.qigong">Zhineng Qigong</a>
+        <a href="index.html#stages" data-i18n="nav.activities">Actividades</a>
+        <a href="aula.html" class="active" data-i18n="nav.aula">Aula Virtual</a>
+        <a href="index.html#about" data-i18n="nav.about">Quiénes Somos</a>
+        <a href="index.html#contact" data-i18n="nav.contact">Contacto</a>
+
+        <div class="lang-toggle-wrapper" style="margin-top: 20px;">
+            <div class="lang-toggle" id="mobile-lang-toggle">
+                <button class="lang-toggle-option active" data-lang="es">ES</button>
+                <button class="lang-toggle-option" data-lang="en">EN</button>
+                <div class="lang-toggle-slider"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="header-inner">
+            <div class="header-row">
+                <div class="profile-switcher">
+                    <button class="profile-btn" data-profile="aureon">AUREON</button>
+                    <button class="profile-btn active" data-profile="hui">HUI</button>
+                    <button class="profile-btn" data-profile="indira-y-hui">INDIRA Y HUI</button>
+                </div>
+            </div>
+
+            <nav class="nav-links">
+                <a href="index.html#hero" data-i18n="nav.home">Inicio</a>
+                <a href="index.html#qigong" data-i18n="nav.qigong">Zhineng Qigong</a>
+                <a href="index.html#stages" data-i18n="nav.activities">Actividades</a>
+                <a href="aula.html" class="active" data-i18n="nav.aula">Aula Virtual</a>
+                <a href="index.html#about" data-i18n="nav.about">Quiénes Somos</a>
+                <a href="index.html#contact" data-i18n="nav.contact">Contacto</a>
+            </nav>
+
+            <button class="menu-toggle" aria-label="Abrir menú">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="aula-page">
+        <div class="container">
+
+            <p class="section-subtitle" style="margin-bottom: 12px;" data-i18n="aula.kicker">Vida ZhìNéng QìGōng</p>
+            <h1 class="section-title" data-i18n="aula.title">Aula Virtual</h1>
+
+            <!-- Selector de idioma (escritorio) -->
+            <div class="lang-toggle-wrapper" style="margin-top: 18px; margin-bottom: 10px;">
+                <div class="lang-toggle" id="aula-lang-toggle">
+                    <button class="lang-toggle-option active" data-lang="es">ES</button>
+                    <button class="lang-toggle-option" data-lang="en">EN</button>
+                    <div class="lang-toggle-slider"></div>
+                </div>
+            </div>
+
+            <!-- Intro (se rellena desde lecciones.json) -->
+            <div class="aula-intro" id="aula-intro"></div>
+
+            <!-- Barra de estado del alumno -->
+            <div class="aula-statusbar" id="aula-status"></div>
+
+            <!-- Contenedor de módulos (render dinámico) -->
+            <div id="aula-modules">
+                <div class="aula-empty">
+                    <i class="bi bi-hourglass-split"></i>
+                    <p data-i18n="aula.loading">Cargando lecciones…</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="page-footer">
+        <div class="footer-content">
+            <div class="footer-profiles">
+                <a href="#" class="profile-btn-link" data-profile="aureon">AUREON</a>
+                <a href="#" class="profile-btn-link" data-profile="hui">HUI</a>
+                <a href="#" class="profile-btn-link" data-profile="indira-y-hui">INDIRA Y HUI</a>
+            </div>
+            <div class="social-links">
+                <a href="https://www.youtube.com/channel/UC4ySxqLC7Xo0kj32h5IyG7A" target="_blank" rel="noopener" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                <a href="https://www.facebook.com/vidaznqghylt" target="_blank" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                <a href="https://www.instagram.com/vidazhinengqigong/" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                <a href="https://wa.me/message/VN2JFFJQSAOKH1" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+            </div>
+            <p class="footer-copy" data-i18n="footer.copy">© 2025 Vida ZhìNéng QìGōng. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="js/i18n.js"></script>
+    <script src="js/background.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/aula-data.js"></script>
+    <script src="js/aula.js"></script>
+
+</body>
+</html>

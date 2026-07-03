@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alter.Lab - Arte Generativo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- CSS de AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> 
+
+    <style>
+        :root {
+            --background-color: #0F121B;
+            --text-color: #FFFFFF;
+            --secondary-text-color: #d1d1d1;
+            --accent-color: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            /* El color de fondo base por si el video tarda en cargar */
+            background-color: var(--background-color); 
+        }
+        
+        /* VIDEO DE FONDO (Ajustado Z-index para estar al fondo absoluto) */
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* Cambio a -2 para dejar espacio al Canvas en -1 */
+            object-fit: cover;
+            filter: brightness(0.4); 
+        }
+
+        /* CANVAS 3D (Agregado del primer código) */
+        #canvas-container { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; /* Entre el video y el contenido */
+            pointer-events: none; /* Permite dar click a lo que está debajo */
+        } 
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex-direction: column; 
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-color);
+        }
+
+        .lang-switcher button {
+            background: none;
+            border: 1px solid var(--secondary-text-color);
+            color: var(--secondary-text-color);
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-switcher button:hover {
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            border-color: var(--accent-color);
+        }
+        
+        .lang-switcher button.active {
+            background-color: var(--text-color);
+            color: var(--background-color);
+            border-color: var(--text-color);
+            font-weight: 700;
+        }
+
+        .hero {
+            display: flex;
+            align-items: center;
+            min-height: calc(80vh - 150px);
+            padding: 20px 0 40px 0;
+        }
+
+        .hero-text {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--secondary-text-color);
+            margin-bottom: 40px;
+            max-width: 450px;
+            line-height: 1.6;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            border: 1px solid var(--accent-color);
+            padding: 15px 35px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border-radius: 25px;
+            margin-bottom: 10px;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-color);
+            color: var(--background-color);
+        }
+        
+        #contact-section {
+            padding: 60px 0;
+            z-index: 2;
+            position: relative;
+        }
+        
+        #contact-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        .contact-form-wrapper {
+            background-color: rgba(15, 18, 27, 0.1); 
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--secondary-text-color);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #888;
+        }
+
+        .contact-form-wrapper .row {
+            display: flex;
+            gap: 20px;
+        }
+        .contact-form-wrapper .col-md-6 {
+            flex: 1;
+        }
+
+        .contact-form-wrapper button[type="submit"] {
+            background: none;
+            border: 1px solid var(--accent-color);
+            padding: 15px 35px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+        }
+
+        .contact-form-wrapper button[type="submit"]:hover {
+            background-color: var(--accent-color);
+            color: var(--background-color);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .page-footer {
+            position: relative;
+            z-index: 2;
+            padding: 40px 0 30px; 
+            text-align: center;
+        }
+        
+        .social-links a {
+            color: var(--secondary-text-color);
+            font-size: 1.8rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--text-color);
+        }
+
+        @media (max-width: 768px) {
+            .hero { text-align: center; min-height: calc(100vh - 200px); padding: 40px 0; justify-content: center; flex-direction: column; }
+            .hero-text { max-width: 100%; }
+            .hero-text h1 { font-size: 2.8rem; }
+            .hero-text p { font-size: 1.1rem; }
+            
+            .contact-form-wrapper .row { flex-direction: column; gap: 0; }
+            .contact-form-wrapper { padding: 30px 20px; }
+            #contact-section h2 { font-size: 2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .logo .logo-text { font-size: 1.2rem; }
+            .hero-text h1 { font-size: 2.2rem; }
+            .hero-text p { font-size: 1rem; }
+            .cta-button { padding: 12px 28px; width: 80%; }
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop playsinline id="background-video">
+        <source src="assets/videos/web05.webm" type="video/webm">
+        <source src="assets/videos/web05.mp4" type="video/mp4">
+        Tu navegador no soporta la etiqueta de video.
+    </video>
+
+    <div id="canvas-container"></div> 
+
+    <!-- Animación AOS agregada al header -->
+    <header class="main-header container" data-aos="fade-down" data-aos-duration="1000">
+        <div class="logo-container">
+            <div class="logo">
+                <a href="alterlab.html">
+                    <img src="assets/img/logo03.png" alt="Alter.Lab Logo">
+                    <span class="logo-text">ALTER.LAB</span>
+                </a>
+            </div>
+            <div class="lang-switcher">
+                <button id="lang-en">EN</button>
+                <button id="lang-es" class="active">ES</button>
+                <button id="lang-fr">FR</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero container">
+            <div class="hero-text">
+                <!-- Animaciones AOS para título, subtítulo y botones en cascada -->
+                <h1 id="hero-title" data-aos="fade-up" data-aos-duration="1000"></h1>
+                <p id="hero-subtitle" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="150"></p>
+                
+                <div class="cta-buttons-container" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="300">
+                    <a href="blog.html" class="cta-button" id="cta-blog"></a>
+                    <a href="portafolio.html" class="cta-button" id="cta-portfolio"></a>
+                    <a href="cursos.html" class="cta-button" id="cta-courses"></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Animación AOS agregada a toda la sección de contacto -->
+        <section id="contact-section" class="container" data-aos="fade-up" data-aos-duration="1000">
+            <h2 id="contact-title"></h2>
+            <div class="contact-form-wrapper">
+              <form id="contact-form" action="https://formspree.io/f/manjlqwe" method="POST">
+                <div class="row">
+                  <div class="col-md-6 form-group">
+                    <label for="contact-name" id="label-name"></label>
+                    <input type="text" id="contact-name" name="nombre" required>
+                  </div>
+                  <div class="col-md-6 form-group">
+                    <label for="contact-email" id="label-email"></label>
+                    <input type="email" id="contact-email" name="email" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="contact-subject" id="label-subject"></label>
+                  <input type="text" id="contact-subject" name="asunto" required>
+                </div>
+                <div class="form-group">
+                  <label for="contact-message" id="label-message"></label>
+                  <textarea id="contact-message" name="mensaje" rows="5" required></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" id="submit-button"></button>
+                </div>
+              </form>
+              <div id="contact-form-status"></div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Animación AOS agregada al footer -->
+    <footer class="page-footer" data-aos="fade-in" data-aos-duration="1000">
+        <div class="social-links">
+            <a href="https://www.youtube.com/@AlterLabGen" target="_blank"><i class="bi bi-youtube"></i></a>
+            <a href="https://www.facebook.com/alter.labgen/" target="_blank"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/alter.labgen/" target="_blank"><i class="bi bi-instagram"></i></a>
+        </div>
+    </footer>
+
+    <!-- Scripts de AOS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Inicializar AOS
+        AOS.init({
+            once: true, 
+            offset: 50, 
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const translations = {
+                en: {
+                    heroTitle: 'GENERATIVE ART LABORATORY',
+                    heroSubtitle: 'Exploring the intersection of creativity and technology',
+                    ctaBlog: 'BLOG',
+                    ctaPortfolio: 'PORTFOLIO',
+                    ctaCourses: 'COURSES',
+                    contactTitle: 'Contact',
+                    labelName: 'Name',
+                    placeholderName: 'Your name',
+                    labelEmail: 'Email',
+                    placeholderEmail: 'So we can reply to you',
+                    labelSubject: 'Subject',
+                    placeholderSubject: 'What do you want to talk about?',
+                    labelMessage: 'Message',
+                    placeholderMessage: 'Write your message here...',
+                    submitButton: 'Send Message'
+                },
+                es: {
+                    heroTitle: 'LABORATORIO DE ARTE GENERATIVO',
+                    heroSubtitle: 'Explorando la intersección entre creatividad y tecnología',
+                    ctaBlog: 'BLOG',
+                    ctaPortfolio: 'PORTAFOLIO',
+                    ctaCourses: 'CURSOS',
+                    contactTitle: 'Contacto',
+                    labelName: 'Nombre',
+                    placeholderName: 'Tu nombre',
+                    labelEmail: 'Correo Electrónico',
+                    placeholderEmail: 'Para poder responderte',
+                    labelSubject: 'Asunto',
+                    placeholderSubject: '¿De qué quieres hablar?',
+                    labelMessage: 'Mensaje',
+                    placeholderMessage: 'Escribe tu mensaje aquí...',
+                    submitButton: 'Enviar Mensaje'
+                },
+                fr: {
+                    heroTitle: "LABORATOIRE D'ART GÉNÉRATIF",
+                    heroSubtitle: "Explorer l'intersection entre la créativité et la technologie",
+                    ctaBlog: 'BLOG',
+                    ctaPortfolio: 'PORTFOLIO',
+                    ctaCourses: 'COURS',
+                    contactTitle: 'Contact',
+                    labelName: 'Nom',
+                    placeholderName: 'Votre nom',
+                    labelEmail: 'Email',
+                    placeholderEmail: 'Pour que nous puissions vous répondre',
+                    labelSubject: 'Sujet',
+                    placeholderSubject: 'De quoi voulez-vous parler ?',
+                    labelMessage: 'Message',
+                    placeholderMessage: 'Écrivez votre message ici...',
+                    submitButton: 'Envoyer le Message'
+                }
+            };
+
+            const elementsToTranslate = {
+                heroTitle: document.getElementById('hero-title'),
+                heroSubtitle: document.getElementById('hero-subtitle'),
+                ctaBlog: document.getElementById('cta-blog'),
+                ctaPortfolio: document.getElementById('cta-portfolio'),
+                ctaCourses: document.getElementById('cta-courses'),
+                contactTitle: document.getElementById('contact-title'),
+                labelName: document.getElementById('label-name'),
+                labelEmail: document.getElementById('label-email'),
+                labelSubject: document.getElementById('label-subject'),
+                labelMessage: document.getElementById('label-message'),
+                submitButton: document.getElementById('submit-button')
+            };
+
+            const inputsToTranslate = {
+                placeholderName: document.getElementById('contact-name'),
+                placeholderEmail: document.getElementById('contact-email'),
+                placeholderSubject: document.getElementById('contact-subject'),
+                placeholderMessage: document.getElementById('contact-message')
+            };
+
+            const langEnButton = document.getElementById('lang-en');
+            const langEsButton = document.getElementById('lang-es');
+            const langFrButton = document.getElementById('lang-fr');
+
+            function setLanguage(lang) {
+                const langData = translations[lang];
+                
+                Object.keys(elementsToTranslate).forEach(key => {
+                    if (elementsToTranslate[key]) {
+                        elementsToTranslate[key].textContent = langData[key];
+                    }
+                });
+
+                Object.keys(inputsToTranslate).forEach(key => {
+                    if (inputsToTranslate[key]) {
+                        inputsToTranslate[key].placeholder = langData[key];
+                    }
+                });
+
+                langEnButton.classList.toggle('active', lang === 'en');
+                langEsButton.classList.toggle('active', lang === 'es');
+                langFrButton.classList.toggle('active', lang === 'fr');
+                document.documentElement.lang = lang;
+            }
+
+            langEnButton.addEventListener('click', () => setLanguage('en'));
+            langEsButton.addEventListener('click', () => setLanguage('es'));
+            langFrButton.addEventListener('click', () => setLanguage('fr'));
+
+            setLanguage('es');
+        });
+    </script>
+
+    <script> 
+        const scene = new THREE.Scene(); 
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); 
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true }); 
+         
+        renderer.setSize(window.innerWidth, window.innerHeight); 
+        document.getElementById('canvas-container').appendChild(renderer.domElement); 
+
+        // Partículas
+        const particlesGeometry = new THREE.BufferGeometry(); 
+        const particlesCount = 700; 
+        const posArray = new Float32Array(particlesCount * 3); 
+
+        for(let i = 0; i < particlesCount * 3; i++) { 
+            posArray[i] = (Math.random() - 0.5) * 15; 
+        } 
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3)); 
+
+        const material = new THREE.PointsMaterial({ 
+            size: 0.02, 
+            color: 0x00E5FF, // Mantenemos el Cyan para conservar la identidad visual
+            transparent: true, 
+            opacity: 0.8 
+        }); 
+
+        const particlesMesh = new THREE.Points(particlesGeometry, material); 
+        scene.add(particlesMesh); 
+
+        // Esfera Wireframe
+        const geometryWire = new THREE.IcosahedronGeometry(4, 1); 
+        const materialWire = new THREE.MeshBasicMaterial({  
+            color: 0x00E5FF,  
+            wireframe: true,  
+            transparent: true,  
+            opacity: 0.1  
+        }); 
+        const sphere = new THREE.Mesh(geometryWire, materialWire); 
+        scene.add(sphere); 
+
+        camera.position.z = 5; 
+
+        // Variables del Mouse
+        let mouseX = 0; 
+        let mouseY = 0; 
+        let targetX = 0; 
+        let targetY = 0; 
+
+        const windowHalfX = window.innerWidth / 2; 
+        const windowHalfY = window.innerHeight / 2; 
+
+        document.addEventListener('mousemove', (event) => { 
+            mouseX = (event.clientX - windowHalfX); 
+            mouseY = (event.clientY - windowHalfY); 
+        }); 
+
+        const clock = new THREE.Clock(); 
+
+        function animate() { 
+            requestAnimationFrame(animate); 
+            const elapsedTime = clock.getElapsedTime(); 
+            targetX = mouseX * 0.001; 
+            targetY = mouseY * 0.001; 
+            
+            // Rotación constante de la esfera
+            sphere.rotation.y += 0.002; 
+            sphere.rotation.x += 0.001; 
+            
+            // Movimiento suave de partículas respondiendo al mouse
+            particlesMesh.rotation.y += 0.05 * (targetX - particlesMesh.rotation.y); 
+            particlesMesh.rotation.x += 0.05 * (targetY - particlesMesh.rotation.x); 
+            particlesMesh.rotation.z = elapsedTime * 0.05; 
+            
+            renderer.render(scene, camera); 
+        } 
+        animate(); 
+
+        window.addEventListener('resize', () => { 
+            camera.aspect = window.innerWidth / window.innerHeight; 
+            camera.updateProjectionMatrix(); 
+            renderer.setSize(window.innerWidth, window.innerHeight); 
+        }); 
+    </script> 
+</body>
+</html>

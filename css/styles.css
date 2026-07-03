@@ -1,0 +1,1322 @@
+/* ============================================================
+   ZHINENG QIGONG — Complete Design System
+   Multi-profile dark theme with glassmorphism
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. CSS VARIABLES
+   ------------------------------------------------------------ */
+
+:root {
+  /* Core palette */
+  --bg-color: #0F121B;
+  --text-color: #FFFFFF;
+  --secondary-text: #f1f3f5;
+  --accent-color: #00E5FF;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(15, 18, 27, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  /* Shared tokens */
+  --radius: 12px;
+  --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* Typography defaults */
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+}
+
+/* Profile-specific accent & typography overrides */
+body[data-profile='aureon'] {
+  --accent-color: #D4A574;   /* golden */
+  --font-heading: 'Cinzel', serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+body[data-profile='hui'] {
+  --accent-color: #6c917d;   /* jade green */
+  --font-heading: 'Lora', serif;
+  --font-body: 'Montserrat', sans-serif;
+}
+
+body[data-profile='indira-y-hui'] {
+  --accent-color: #9B7FBF;   /* amethyst */
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+/* ------------------------------------------------------------
+   2. RESET & BASE
+   ------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-style: normal;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Heading and branding fonts (enforcing no italics) */
+h1, h2, h3, h4, h5, h6,
+.logo-text,
+.nav-links a,
+.profile-btn,
+.cta-button,
+.video-card-title,
+.section-title,
+.form-group label,
+.form-submit-btn,
+.mobile-nav a,
+.lang-toggle-option {
+  font-family: var(--font-heading);
+  font-style: normal;
+}
+
+h1, h2, h3, h4, h5, h6,
+.logo-text,
+.section-title,
+.video-card-title {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+::selection {
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ------------------------------------------------------------
+   3. BACKGROUND SLIDESHOW & CANVAS
+   ------------------------------------------------------------ */
+
+.bg-slideshow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.bg-slideshow img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+  filter: brightness(0.3);
+  will-change: transform, opacity;
+  animation: kenBurns 12s ease-in-out infinite alternate;
+}
+
+.bg-slideshow img.active {
+  opacity: 1;
+}
+
+#canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background: rgba(15, 18, 27, 0.45);
+}
+
+/* ------------------------------------------------------------
+   4. LAYOUT
+   ------------------------------------------------------------ */
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.section {
+  padding: 100px 0;
+  position: relative;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.section-subtitle {
+  color: var(--secondary-text);
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 60px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* ------------------------------------------------------------
+   5. HEADER / NAVIGATION — 3 centered rows
+   ------------------------------------------------------------ */
+
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 0;
+  transition: background-color 0.4s;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.main-header.scrolled {
+  background: rgba(15, 18, 27, 0.95);
+}
+
+.header-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  gap: 6px;
+}
+
+/* Generic centered row */
+.header-row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Desktop nav links — centered */
+.nav-links {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: color 0.3s;
+  position: relative;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent-color);
+  transition: width 0.3s;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+.nav-links a:hover {
+  color: #fff;
+}
+
+/* Hamburger — hidden on desktop, absolute on mobile */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 5%;
+}
+
+/* ------------------------------------------------------------
+   6. PROFILE SWITCHER
+   ------------------------------------------------------------ */
+
+.profile-switcher {
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 25px;
+  padding: 3px;
+}
+
+.profile-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 22px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.profile-btn.active {
+  background: var(--accent-color);
+  color: var(--bg-color);
+}
+
+.profile-btn:hover:not(.active) {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ------------------------------------------------------------
+   7. LANGUAGE SWITCHER
+   ------------------------------------------------------------ */
+
+/* Lang toggle styles now in §LANGUAGE TOGGLE SWITCH at end of file */
+
+/* ------------------------------------------------------------
+   8. MOBILE MENU
+   ------------------------------------------------------------ */
+
+/* (menu-toggle styles now in header section §5) */
+
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 80%;
+  max-width: 350px;
+  height: 100vh;
+  background: rgba(15, 18, 27, 0.98);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  z-index: 2000;
+  transition: right 0.4s;
+  padding: 80px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.mobile-nav.open {
+  right: 0;
+}
+
+.mobile-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+.mobile-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-close {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------
+   9. HERO SECTION
+   ------------------------------------------------------------ */
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 100px;
+}
+
+.hero-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 3px;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.95);
+}
+
+.hero-content h1 span.accent {
+  color: var(--accent-color);
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: #FFFFFF; /* High contrast pure white */
+  font-weight: 500; /* Prevent invisible thin fonts */
+  line-height: 1.7;
+  margin-bottom: 45px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+}
+
+.hero-badge {
+  display: inline-block;
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  background: rgba(15, 18, 27, 0.4);
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* ------------------------------------------------------------
+   10. CTA BUTTONS
+   ------------------------------------------------------------ */
+
+.cta-button {
+  display: inline-block;
+  border: 1px solid var(--accent-color);
+  padding: 15px 40px;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  border-radius: 30px;
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  font-family: inherit;
+  background: none;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--accent-color);
+  transition: left 0.4s;
+  z-index: -1;
+}
+
+.cta-button:hover::before {
+  left: 0;
+}
+
+.cta-button,
+.cta-button:link,
+.cta-button:visited {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.cta-button:hover,
+.cta-button:active {
+  color: var(--bg-color);
+  text-decoration: none;
+}
+
+/* Filled variant */
+.cta-button.filled {
+  background: var(--accent-color);
+  color: var(--bg-color);
+  border-color: var(--accent-color);
+}
+
+.cta-button.filled:link,
+.cta-button.filled:visited {
+  color: var(--bg-color);
+}
+
+.cta-button.filled::before {
+  background: transparent;
+}
+
+.cta-button.filled:hover,
+.cta-button.filled:active {
+  background: transparent;
+  color: #ffffff;
+}
+
+.cta-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------
+   11. GLASS CARDS
+   ------------------------------------------------------------ */
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 40px 30px;
+  transition: transform 0.4s, var(--transition);
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ------------------------------------------------------------
+   12. INFO SECTION (What is Qigong)
+   ------------------------------------------------------------ */
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.info-text p {
+  color: var(--secondary-text);
+  line-height: 1.8;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.info-image {
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+}
+
+.info-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.6s;
+}
+
+.info-image:hover img {
+  transform: scale(1.05);
+}
+
+/* ------------------------------------------------------------
+   13. BENEFITS / STAGES CARDS (3 columns)
+   ------------------------------------------------------------ */
+
+.stages-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.stage-card {
+  text-align: center;
+  padding: 40px 25px;
+}
+
+.stage-card .stage-image {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 25px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--glass-border);
+}
+
+.stage-card .stage-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s;
+}
+
+.stage-card:hover .stage-image img {
+  transform: scale(1.1);
+}
+
+.stage-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.stage-card p {
+  color: var(--secondary-text);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.stage-number {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  color: var(--bg-color);
+  font-weight: 700;
+  line-height: 40px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+/* ------------------------------------------------------------
+   14. BENEFITS LIST
+   ------------------------------------------------------------ */
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.benefit-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.benefit-icon {
+  color: var(--accent-color);
+  font-size: 1.2rem;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.benefit-text {
+  color: var(--secondary-text);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ------------------------------------------------------------
+   15. FAQ ACCORDION
+   ------------------------------------------------------------ */
+
+.faq-list {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  padding: 25px 0;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: inherit;
+  letter-spacing: 0.5px;
+  transition: color 0.3s;
+}
+
+.faq-question:hover {
+  color: var(--accent-color);
+}
+
+.faq-question .faq-icon {
+  transition: transform 0.3s;
+  font-size: 1.2rem;
+  color: var(--accent-color);
+}
+
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+  padding: 0;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 500px;
+  padding-bottom: 25px;
+}
+
+.faq-answer p {
+  color: var(--secondary-text);
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+/* ------------------------------------------------------------
+   16. TESTIMONIALS
+   ------------------------------------------------------------ */
+
+.testimonials-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.testimonial-card {
+  padding: 35px;
+}
+
+.testimonial-quote {
+  color: var(--secondary-text);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  font-style: normal;
+  margin-bottom: 25px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.testimonial-quote::before {
+  content: open-quote;
+  font-size: 3rem;
+  color: var(--accent-color);
+  position: absolute;
+  top: -10px;
+  left: -5px;
+  opacity: 0.5;
+}
+
+.testimonial-author {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.testimonial-location {
+  color: var(--accent-color);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------
+   17. CONTACT FORM
+   ------------------------------------------------------------ */
+
+.contact-section {
+  padding: 100px 0;
+}
+
+.contact-form-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 50px 40px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--secondary-text);
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #555;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.form-submit-btn {
+  display: inline-block;
+  border: 1px solid var(--accent-color);
+  padding: 15px 40px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  border-radius: 30px;
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  font-family: inherit;
+  background: none;
+}
+
+.form-submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--accent-color);
+  transition: left 0.4s;
+  z-index: -1;
+}
+
+.form-submit-btn:hover::before {
+  left: 0;
+}
+
+.form-submit-btn:hover {
+  color: var(--bg-color);
+}
+
+/* ------------------------------------------------------------
+   18. FOOTER
+   ------------------------------------------------------------ */
+
+.page-footer {
+  padding: 60px 0 30px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.footer-profiles {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.footer-profiles a {
+  color: var(--secondary-text);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-profiles a:hover {
+  color: var(--accent-color);
+}
+
+.social-links {
+  margin-bottom: 25px;
+}
+
+.social-links a {
+  color: var(--secondary-text);
+  font-size: 1.6rem;
+  margin: 0 12px;
+  transition: all 0.3s;
+  display: inline-block;
+}
+
+.social-links a:hover {
+  color: var(--accent-color);
+  transform: translateY(-3px);
+}
+
+.footer-copy {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+/* ------------------------------------------------------------
+   19. KEYFRAME ANIMATIONS
+   ------------------------------------------------------------ */
+
+@keyframes kenBurns {
+  from {
+    transform: scale(1) translate(0, 0);
+  }
+  to {
+    transform: scale(1.1) translate(-1%, -1%);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Scroll animations now handled by AOS library */
+
+/* ------------------------------------------------------------
+   20. CUSTOM SCROLLBAR
+   ------------------------------------------------------------ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--accent-color), 0.3);
+  /* fallback for browsers that can't parse var inside rgba */
+  background: color-mix(in srgb, var(--accent-color) 30%, transparent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--accent-color) 50%, transparent);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--accent-color) 30%, transparent) transparent;
+}
+
+/* ------------------------------------------------------------
+   21. RESPONSIVE — 1024px
+   ------------------------------------------------------------ */
+
+@media (max-width: 1024px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stages-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .testimonials-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ------------------------------------------------------------
+   22. RESPONSIVE — 768px (Tablet)
+   ------------------------------------------------------------ */
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .header-inner {
+    padding: 10px 5%;
+  }
+
+  .section {
+    padding: 70px 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-content p {
+    font-size: 1.05rem;
+  }
+
+  .stages-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonials-container {
+    grid-template-columns: 1fr;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ------------------------------------------------------------
+   23. RESPONSIVE — 480px (Mobile)
+   ------------------------------------------------------------ */
+
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .logo-text {
+    font-size: 1rem;
+  }
+
+  .cta-button {
+    padding: 12px 30px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .cta-buttons-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-btn {
+    padding: 6px 12px;
+    font-size: 0.65rem;
+  }
+
+  .contact-form-wrapper {
+    padding: 30px 20px;
+  }
+}
+
+/* ------------------------------------------------------------
+   LANGUAGE TOGGLE SWITCH (pill in hero)
+   ------------------------------------------------------------ */
+
+.lang-toggle-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255,255,255,0.07);
+  border-radius: 20px;
+  padding: 3px;
+  position: relative;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12);
+  overflow: hidden;
+}
+
+.lang-toggle-option {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.45);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  padding: 5px 16px;
+  cursor: pointer;
+  transition: color 0.3s;
+  position: relative;
+  z-index: 1;
+  text-transform: uppercase;
+}
+
+.lang-toggle-option.active {
+  color: #fff;
+}
+
+.lang-toggle-slider {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  height: calc(100% - 6px);
+  background: var(--accent-color);
+  border-radius: 17px;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.85;
+}
+
+.lang-toggle.en .lang-toggle-slider {
+  transform: translateX(100%);
+}
+
+/* ------------------------------------------------------------
+   COURSES SECTION
+   ------------------------------------------------------------ */
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.video-card {
+  background: rgba(255,255,255,0.04);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s, border-color 0.4s;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+.video-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  border-color: var(--accent-color);
+}
+
+.video-card-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.video-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.video-card:hover .video-card-thumb img {
+  transform: scale(1.06);
+}
+
+.video-card-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  background: rgba(0,0,0,0.55);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 2px solid rgba(255,255,255,0.2);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.video-card:hover .video-card-play {
+  background: var(--accent-color);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.video-card-play i {
+  color: #fff;
+  font-size: 1.3rem;
+  margin-left: 3px;
+}
+
+.video-card-info {
+  padding: 18px;
+}
+
+.video-card-title {
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 6px;
+}
+
+.video-card-meta {
+  color: var(--secondary-text);
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.video-card-meta i {
+  color: var(--accent-color);
+}
+
+/* ------------------------------------------------------------
+   PROFILE CONTENT SWITCHING
+   ------------------------------------------------------------ */
+
+.profile-content {
+  display: none;
+}
+
+body[data-profile="aureon"] .profile-content[data-for-profile="aureon"],
+body[data-profile="hui"] .profile-content[data-for-profile="hui"],
+body[data-profile="indira-y-hui"] .profile-content[data-for-profile="indira-y-hui"] {
+  display: block;
+}
+
+/* Courses responsive */
+@media (max-width: 900px) {
+  .courses-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
+}

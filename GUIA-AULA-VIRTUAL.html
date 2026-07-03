@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía del Aula Virtual — Vida ZhìNéng QìGōng</title>
+<style>
+  :root{
+    --bg:#0F121B; --card:#171b27; --ink:#1d2230; --accent:#6c917d; --gold:#f2c879;
+    --text:#1f2430; --muted:#5b6472; --line:#e4e7ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:#eef1f6; color:var(--text);
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+    line-height:1.7; padding:30px 16px;
+  }
+  .wrap{max-width:840px; margin:0 auto; background:#fff; border-radius:16px;
+    box-shadow:0 12px 40px rgba(20,30,60,.10); overflow:hidden;}
+  header{background:linear-gradient(135deg,#0F121B,#243245); color:#fff; padding:38px 40px;}
+  header .kick{color:var(--accent); letter-spacing:2px; text-transform:uppercase; font-size:.78rem; font-weight:700;}
+  header h1{margin:8px 0 6px; font-size:1.9rem; letter-spacing:.5px;}
+  header p{margin:0; color:#c8cfdb; font-size:.98rem;}
+  .body{padding:34px 40px 48px;}
+  h2{font-size:1.25rem; margin:34px 0 10px; padding-top:14px; border-top:2px solid var(--line);
+    display:flex; align-items:center; gap:10px;}
+  h2 .n{background:var(--accent); color:#fff; width:30px; height:30px; border-radius:9px;
+    display:inline-flex; align-items:center; justify-content:center; font-size:.95rem; flex-shrink:0;}
+  h3{font-size:1.02rem; margin:20px 0 6px; color:#0F121B;}
+  p,li{font-size:.96rem;}
+  code{background:#eef1f6; padding:2px 7px; border-radius:6px; font-family:Consolas,monospace; font-size:.9em; color:#2a3a4d;}
+  .pill{display:inline-block; background:var(--accent); color:#fff; padding:1px 10px; border-radius:20px; font-size:.8rem; font-weight:600;}
+  .pill.gold{background:var(--gold); color:#3a2c00;}
+  ul,ol{padding-left:22px;} li{margin-bottom:6px;}
+  .note{background:#f3f6fb; border:1px solid #dde4ee; border-left:4px solid var(--accent);
+    padding:14px 16px; border-radius:8px; margin:16px 0; font-size:.92rem;}
+  .note.warn{border-left-color:var(--gold); background:#fffaf0; border-color:#f3e6c4;}
+  .note.danger{border-left-color:#d9534f; background:#fdf3f3; border-color:#f3d6d6;}
+  .steps{counter-reset:s; list-style:none; padding-left:0;}
+  .steps>li{position:relative; padding-left:42px; margin-bottom:14px;}
+  .steps>li::before{counter-increment:s; content:counter(s); position:absolute; left:0; top:-2px;
+    width:28px; height:28px; background:var(--ink); color:#fff; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:.85rem; font-weight:700;}
+  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:.92rem;}
+  th,td{border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top;}
+  th{background:#f3f6fb;}
+  .tag{font-family:Consolas,monospace; font-size:.85rem; background:#0F121B; color:#9fe0c0; padding:2px 8px; border-radius:6px;}
+  .toc{background:#f7f9fc; border:1px solid var(--line); border-radius:10px; padding:16px 20px; margin-bottom:10px;}
+  .toc a{color:#2a4a5e; text-decoration:none;} .toc a:hover{text-decoration:underline;}
+  .big{font-size:1.05rem;}
+  .kbd{background:#fff; border:1px solid #cdd4df; border-bottom-width:2px; border-radius:6px; padding:1px 8px; font-size:.85rem;}
+  footer{padding:22px 40px 34px; color:var(--muted); font-size:.85rem; border-top:1px solid var(--line);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kick">Vida ZhìNéng QìGōng</div>
+    <h1>Guía del Aula Virtual</h1>
+    <p>Cómo administrar las lecciones del aula — sin tocar código.</p>
+  </header>
+
+  <div class="body">
+
+    <div class="toc">
+      <strong>Contenido de esta guía</strong>
+      <ol style="margin:8px 0 0;">
+        <li><a href="#a1">Las dos páginas que debes conocer</a></li>
+        <li><a href="#a2">Entrar al panel por primera vez</a></li>
+        <li><a href="#a3">Agregar y editar contenido</a></li>
+        <li><a href="#a4">Contenido público y contenido para alumnos</a></li>
+        <li><a href="#a5">Conectar con GitHub (una sola vez)</a></li>
+        <li><a href="#a6">Publicar los cambios</a></li>
+        <li><a href="#a7">Respaldo: exportar e importar</a></li>
+        <li><a href="#a8">Seguridad y buenas prácticas</a></li>
+        <li><a href="#a9">Preguntas frecuentes</a></li>
+      </ol>
+    </div>
+
+    <p class="big">El <strong>Aula Virtual</strong> te permite compartir lecciones (videos de YouTube,
+    archivos de Google Drive, PDF o cualquier enlace) organizadas en módulos. Tú las administras desde
+    un <strong>panel visual</strong> con formularios: nunca necesitas editar código.</p>
+
+    <h2 id="a1"><span class="n">1</span> Las dos páginas que debes conocer</h2>
+    <table>
+      <tr><th>Página</th><th>Dirección</th><th>Para qué sirve</th></tr>
+      <tr>
+        <td><strong>El aula</strong></td>
+        <td><span class="tag">tu-sitio.com/aula.html</span></td>
+        <td>Lo que ven tus visitantes y alumnos. También se llega desde el menú <span class="pill">Aula Virtual</span>.</td>
+      </tr>
+      <tr>
+        <td><strong>El panel</strong></td>
+        <td><span class="tag">tu-sitio.com/admin.html</span></td>
+        <td>Donde TÚ administras el contenido. No está enlazado en el sitio: escribe la dirección a mano.</td>
+      </tr>
+    </table>
+    <div class="note">Guarda <span class="tag">admin.html</span> en tus favoritos. Es privado: solo tú entras ahí con tu contraseña.</div>
+
+    <h2 id="a2"><span class="n">2</span> Entrar al panel por primera vez</h2>
+    <ol class="steps">
+      <li>Abre <span class="tag">tu-sitio.com/admin.html</span> en tu navegador.</li>
+      <li>La primera vez te pedirá <strong>crear una contraseña</strong>. Escríbela dos veces y pulsa <span class="kbd">Crear y entrar</span>.</li>
+      <li>Las siguientes veces solo escribirás esa contraseña para entrar.</li>
+    </ol>
+    <div class="note warn">La contraseña se guarda <strong>solo en el navegador de tu computadora</strong>. Si entras desde otra computadora, crearás una contraseña nueva para ese equipo (es normal). Si la olvidas, podrás crear otra desde el mismo equipo borrando los datos del sitio en el navegador.</div>
+
+    <h2 id="a3"><span class="n">3</span> Agregar y editar contenido</h2>
+    <p>En la pestaña <span class="pill">Contenido</span> organizas todo en <strong>módulos</strong> y, dentro de cada módulo, <strong>lecciones</strong>.</p>
+
+    <h3>Crear un módulo</h3>
+    <ol class="steps">
+      <li>Pulsa <span class="kbd">+ Agregar módulo</span>.</li>
+      <li>Haz clic en el módulo para abrirlo y llena el <strong>título</strong> (en español; el inglés es opcional) y una breve descripción.</li>
+      <li>Elige una <strong>imagen de portada</strong> si quieres (una ruta como <code>assets/v01.png</code> o un enlace a una imagen).</li>
+    </ol>
+
+    <h3>Agregar lecciones</h3>
+    <ol class="steps">
+      <li>Dentro del módulo, pulsa <span class="kbd">+ Agregar lección</span>.</li>
+      <li>Escribe el <strong>título</strong> y la <strong>descripción</strong>.</li>
+      <li>Elige el <strong>tipo</strong> y pega el <strong>enlace</strong> (URL):</li>
+    </ol>
+    <table>
+      <tr><th>Tipo</th><th>Qué enlace pegar</th></tr>
+      <tr><td><strong>YouTube</strong></td><td>La dirección del video, ej. <code>https://www.youtube.com/watch?v=XXXX</code>. El video se verá incrustado dentro del aula. La miniatura se toma sola.</td></tr>
+      <tr><td><strong>Google Drive</strong></td><td>El enlace para compartir del archivo (video, PDF, documento). En Drive: <em>Compartir → Cualquier persona con el enlace</em>, luego <em>Copiar enlace</em>.</td></tr>
+      <tr><td><strong>PDF</strong></td><td>El enlace directo a un PDF (o un PDF en Drive). Se mostrará dentro del aula.</td></tr>
+      <tr><td><strong>Enlace / otro</strong></td><td>Cualquier otra dirección (una carpeta de Drive, Zoom, Meet, etc.). Se abrirá en una pestaña nueva.</td></tr>
+    </table>
+    <div class="note">Para <strong>reordenar</strong> usa las flechas ▲ ▼. Para <strong>eliminar</strong>, el ícono de papelera. Todo se guarda solo mientras editas; recuerda <strong>Publicar</strong> al final.</div>
+
+    <h2 id="a4"><span class="n">4</span> Contenido público y contenido para alumnos</h2>
+    <p>Cada módulo puede ser:</p>
+    <ul>
+      <li><span class="pill">Público</span> — cualquiera puede verlo y abrir sus lecciones.</li>
+      <li><span class="pill gold">Alumnos</span> — protegido: solo se abre con el <strong>código de alumnos</strong>.</li>
+    </ul>
+
+    <h3>Cómo proteger un módulo</h3>
+    <ol class="steps">
+      <li>En el módulo, cambia <strong>Acceso</strong> a <span class="pill gold">Alumnos (con código)</span>.</li>
+      <li>Ve a la pestaña <span class="pill">Ajustes</span> y activa <strong>“Contenido para alumnos”</strong>.</li>
+      <li>Escribe el <strong>código de alumnos</strong> (la clave que compartirás con tus alumnos de paga). Ejemplo: <code>ALUMNO2026</code>.</li>
+    </ol>
+
+    <h3>¿Cómo lo usan tus alumnos?</h3>
+    <p>En el aula verán los módulos de alumnos con un candado 🔒. Al pulsar <span class="kbd">Ingresar código</span> y escribir el código correcto, el contenido se desbloquea y queda recordado en su dispositivo.</p>
+
+    <div class="note danger"><strong>Importante sobre la protección.</strong> Los enlaces de alumnos se guardan <strong>cifrados</strong>: sin el código no se pueden abrir, ni siquiera mirando los archivos del sitio. Es una protección real. Aun así, recuerda que un alumno con el código podría compartirlo; cambia el código cada cierto tiempo (por ejemplo, cada curso) si lo necesitas. Cuando cambies el código, vuelve a <strong>Publicar</strong>: el contenido se recifra con el código nuevo y los alumnos deberán usar el nuevo.</div>
+
+    <div class="note warn">El código por defecto del contenido de ejemplo es <code>ALUMNO2026</code>. <strong>Cámbialo</strong> por uno tuyo antes de abrir el aula a alumnos reales.</div>
+
+    <h2 id="a5"><span class="n">5</span> Conectar con GitHub (una sola vez)</h2>
+    <p>Tu sitio vive en GitHub. Para que el botón <strong>Publicar</strong> funcione, el panel necesita un <strong>token</strong> (una llave) con permiso para actualizar el sitio. Esto se hace <strong>una sola vez</strong>.</p>
+    <ol class="steps">
+      <li>Entra a GitHub → <span class="kbd">Settings</span> → <span class="kbd">Developer settings</span> → <span class="kbd">Personal access tokens</span> → <span class="kbd">Fine-grained tokens</span> → <span class="kbd">Generate new token</span>.<br><span style="color:#5b6472;font-size:.88rem;">Atajo: <span class="tag">github.com/settings/personal-access-tokens/new</span></span></li>
+      <li>En <strong>Repository access</strong> elige <strong>Only select repositories</strong> y selecciona el repositorio de tu sitio.</li>
+      <li>En <strong>Permissions → Repository permissions → Contents</strong>, elige <strong>Read and write</strong>.</li>
+      <li>Genera el token y <strong>cópialo</strong> (solo se muestra una vez).</li>
+      <li>En el panel, pestaña <span class="pill">Conexión</span>, llena:
+        <ul>
+          <li><strong>Usuario u organización</strong>: tu usuario de GitHub.</li>
+          <li><strong>Repositorio</strong>: el nombre del repositorio (lo ves en la dirección <code>github.com/<b>usuario</b>/<b>repositorio</b></code>).</li>
+          <li><strong>Rama</strong>: normalmente <code>main</code>.</li>
+          <li><strong>Ruta del archivo</strong>: déjala como <code>data/lecciones.json</code>.</li>
+          <li><strong>Token</strong>: pega el que copiaste.</li>
+        </ul>
+      </li>
+      <li>Pulsa <span class="kbd">Guardar</span> y luego <span class="kbd">Probar conexión</span>. Debe decir “Conexión correcta”.</li>
+    </ol>
+    <div class="note">Estos datos se guardan <strong>solo en tu navegador</strong>, nunca se suben al sitio público.</div>
+
+    <h2 id="a6"><span class="n">6</span> Publicar los cambios</h2>
+    <ol class="steps">
+      <li>(Opcional) Pulsa <span class="kbd">Vista previa</span> para ver cómo quedará el aula antes de publicar.</li>
+      <li>Pulsa <span class="kbd">Publicar</span> y confirma.</li>
+      <li>Espera <strong>~1 minuto</strong>: GitHub actualiza el sitio solo. Recarga el aula y verás los cambios en vivo.</li>
+    </ol>
+    <div class="note warn">Si <strong>Publicar</strong> da un error, casi siempre es por la conexión: revisa el token y los datos en la pestaña <span class="pill">Conexión</span> y pulsa <strong>Probar conexión</strong>.</div>
+
+    <h2 id="a7"><span class="n">7</span> Respaldo: exportar e importar</h2>
+    <ul>
+      <li><span class="kbd">Exportar</span> descarga una copia de todo el contenido (archivo <code>lecciones.json</code>). Guárdala de vez en cuando como respaldo.</li>
+      <li><span class="kbd">Importar</span> vuelve a cargar un archivo que exportaste antes (por si necesitas restaurar).</li>
+    </ul>
+    <div class="note">Si algún día no quisieras usar el botón Publicar, también puedes subir el archivo <code>lecciones.json</code> exportado a la carpeta <code>data/</code> de tu repositorio desde la web de GitHub (arrastrar y soltar en “Add file → Upload files”).</div>
+
+    <h2 id="a8"><span class="n">8</span> Seguridad y buenas prácticas</h2>
+    <ul>
+      <li>Usa el panel <strong>solo en tu computadora de confianza</strong> (la contraseña, el token y el código quedan guardados en ese navegador).</li>
+      <li>No compartas tu <strong>token</strong> de GitHub con nadie. Si se filtra, bórralo en GitHub y crea otro.</li>
+      <li>Comparte el <strong>código de alumnos</strong> solo con tus alumnos inscritos. Cámbialo cuando lo necesites.</li>
+      <li>Haz un <strong>Exportar</strong> de respaldo antes de cambios grandes.</li>
+    </ul>
+
+    <h2 id="a9"><span class="n">9</span> Preguntas frecuentes</h2>
+    <h3>Publiqué pero no veo los cambios.</h3>
+    <p>Espera ~1 minuto y recarga la página del aula. Si usas el navegador con caché, prueba recargar con <span class="kbd">Ctrl</span>+<span class="kbd">F5</span>.</p>
+    <h3>El alumno dice que su código no funciona.</h3>
+    <p>Verifica que sea exactamente el código actual (sin espacios) y que hayas <strong>Publicado</strong> después de definirlo. Si cambiaste el código, los alumnos deben usar el nuevo.</p>
+    <h3>Quiero editar contenido de alumnos desde otra computadora.</h3>
+    <p>Entra al panel, ve a <span class="pill">Ajustes</span>, escribe el código de alumnos y pulsa <strong>“Cargar contenido de alumnos para editar”</strong>. Así podrás ver y modificar esos enlaces.</p>
+    <h3>¿Puedo tener un módulo con unas lecciones públicas y otras de alumnos?</h3>
+    <p>Sí. En cada lección, el campo <strong>Acceso</strong> puede ser “Igual que el módulo”, “Público” o “Alumnos”.</p>
+
+  </div>
+
+  <footer>
+    Vida ZhìNéng QìGōng — Aula Virtual. Esta guía es para uso interno del administrador del sitio.
+  </footer>
+</div>
+</body>
+</html>

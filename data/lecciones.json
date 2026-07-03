@@ -1,0 +1,200 @@
+{
+  "version": 1,
+  "updatedAt": "2026-06-13T12:00:00.000Z",
+  "settings": {
+    "intro": {
+      "es": "Bienvenido al Aula Virtual. Aquí encontrarás lecciones organizadas por módulos. El contenido marcado con 🔒 es exclusivo para alumnos inscritos.",
+      "en": "Welcome to the Virtual Classroom. Here you will find lessons organized by modules. Content marked with 🔒 is exclusive to enrolled students."
+    },
+    "premium": {
+      "enabled": true,
+      "salt": "KrqJneNGFbIs4Xd3rSGSLg==",
+      "iterations": 150000,
+      "verifier": "v1:XwsQAYEiEw96qoHX:ii2lEPQBKpp6/oUL7K0G2RirnxP9RGbdd/o06Q==",
+      "hint": {
+        "es": "Si eres alumno inscrito y no tienes tu código, escríbenos por WhatsApp.",
+        "en": "If you are an enrolled student and do not have your code, contact us on WhatsApp."
+      }
+    }
+  },
+  "modules": [
+    {
+      "id": "mod-publico-sonidos",
+      "title": {
+        "es": "Sonidos y Mudras de los Órganos",
+        "en": "Sounds and Mudras of the Organs"
+      },
+      "description": {
+        "es": "Serie abierta a todo público: ejercicios de sonido y mudra para armonizar los órganos. Practica junto a Indira & Hui.",
+        "en": "Open to everyone: sound and mudra exercises to harmonize the organs. Practice along with Indira & Hui."
+      },
+      "access": "public",
+      "profile": "all",
+      "cover": "assets/h24.png",
+      "order": 0,
+      "lessons": [
+        {
+          "id": "les-pub-0",
+          "title": {
+            "es": "Sonido y Mudra de los Riñones",
+            "en": "Sound and Mudra of the Kidneys"
+          },
+          "description": {
+            "es": "Ejercicio para nutrir la energía de los riñones.",
+            "en": "Exercise to nourish kidney energy."
+          },
+          "type": "youtube",
+          "url": "https://www.youtube.com/watch?v=WIIf-Nzd_xU",
+          "urlEnc": "",
+          "thumbnail": "assets/h24.png",
+          "duration": "",
+          "access": "inherit",
+          "order": 0
+        },
+        {
+          "id": "les-pub-1",
+          "title": {
+            "es": "Sonido y Mudra del Hígado",
+            "en": "Sound and Mudra of the Liver"
+          },
+          "description": {
+            "es": "Libera y armoniza la energía del hígado.",
+            "en": "Release and harmonize liver energy."
+          },
+          "type": "youtube",
+          "url": "https://www.youtube.com/watch?v=ewkO4ULmco8",
+          "urlEnc": "",
+          "thumbnail": "assets/h16.png",
+          "duration": "",
+          "access": "inherit",
+          "order": 1
+        },
+        {
+          "id": "les-pub-2",
+          "title": {
+            "es": "Sonido y Mudra de los Pulmones",
+            "en": "Sound and Mudra of the Lungs"
+          },
+          "description": {
+            "es": "Fortalece y limpia la energía de los pulmones.",
+            "en": "Strengthen and cleanse lung energy."
+          },
+          "type": "youtube",
+          "url": "https://www.youtube.com/watch?v=CVUwnLah8YM",
+          "urlEnc": "",
+          "thumbnail": "assets/h18.png",
+          "duration": "",
+          "access": "inherit",
+          "order": 2
+        },
+        {
+          "id": "les-pub-3",
+          "title": {
+            "es": "Mudra y Sonido del Corazón",
+            "en": "Mudra and Sound of the Heart"
+          },
+          "description": {
+            "es": "Cultiva la alegría y la paz del corazón.",
+            "en": "Cultivate the joy and peace of the heart."
+          },
+          "type": "youtube",
+          "url": "https://www.youtube.com/watch?v=KXtor_4sVGE",
+          "urlEnc": "",
+          "thumbnail": "assets/h21.png",
+          "duration": "",
+          "access": "inherit",
+          "order": 3
+        },
+        {
+          "id": "les-pub-4",
+          "title": {
+            "es": "Sonido y Mudra del Páncreas — Ejercicio Roufu",
+            "en": "Sound and Mudra of the Pancreas — Roufu Exercise"
+          },
+          "description": {
+            "es": "Equilibra el centro y la digestión.",
+            "en": "Balance the center and digestion."
+          },
+          "type": "youtube",
+          "url": "https://www.youtube.com/watch?v=84rwJOWva7U",
+          "urlEnc": "",
+          "thumbnail": "assets/h11.png",
+          "duration": "",
+          "access": "inherit",
+          "order": 4
+        },
+        {
+          "id": "les-pub-5",
+          "title": {
+            "es": "Práctica de Luna Llena",
+            "en": "Full Moon Practice"
+          },
+          "description": {
+            "es": "Práctica especial para los días de luna llena.",
+            "en": "Special practice for full moon days."
+          },
+          "type": "youtube",
+          "url": "https://www.youtube.com/watch?v=CcuubGIChvg",
+          "urlEnc": "",
+          "thumbnail": "assets/h17.png",
+          "duration": "",
+          "access": "inherit",
+          "order": 5
+        }
+      ]
+    },
+    {
+      "id": "mod-premium-nivel1",
+      "title": {
+        "es": "Nivel 1 · PengQìGuanDingFa (Alumnos)",
+        "en": "Level 1 · PengQìGuanDingFa (Students)"
+      },
+      "description": {
+        "es": "Módulo completo del primer nivel para alumnos inscritos. Incluye sesiones guiadas y material de apoyo. Requiere código de acceso.",
+        "en": "Complete first-level module for enrolled students. Includes guided sessions and support material. Access code required."
+      },
+      "access": "premium",
+      "profile": "all",
+      "cover": "assets/v01.png",
+      "order": 1,
+      "lessons": [
+        {
+          "id": "les-prem-0",
+          "title": {
+            "es": "Sesión guiada completa — Parte 1",
+            "en": "Full guided session — Part 1"
+          },
+          "description": {
+            "es": "Práctica guiada completa del primer nivel (demostración).",
+            "en": "Full guided practice of the first level (demo)."
+          },
+          "type": "youtube",
+          "url": "",
+          "urlEnc": "v1:5hCnVzAqk2LoT/Ns:615YY3mJMxHZEQPKke8WOvpODKxtWSPCiHoAYGcxb2XF1Ry/dSD1odZrECe3f3wasJa0vogZMEwA/EQ=",
+          "thumbnail": "assets/v02.png",
+          "duration": "",
+          "access": "inherit",
+          "order": 0
+        },
+        {
+          "id": "les-prem-1",
+          "title": {
+            "es": "Material de apoyo (PDF en Drive)",
+            "en": "Support material (PDF on Drive)"
+          },
+          "description": {
+            "es": "Documento con los puntos clave de la práctica (enlace de ejemplo, reemplázalo desde el panel).",
+            "en": "Document with the key points of the practice (sample link, replace it from the panel)."
+          },
+          "type": "link",
+          "url": "",
+          "urlEnc": "v1:hrFyjIeowaDFXkf/:BQlWrFp7pPNaNUc52hqgqO2iWzaxdBPNXFLQat9M2pEkqrXfvK/tNxKbdxU2MALjCf7fzS2SApCxf3UPu426fZR8qPt1zA==",
+          "thumbnail": "assets/v03.png",
+          "duration": "",
+          "access": "inherit",
+          "order": 1
+        }
+      ]
+    }
+  ]
+}
