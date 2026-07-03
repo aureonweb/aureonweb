@@ -407,11 +407,11 @@ window.App = {
     }
 
     AOS.init({
-      duration: 800,            // animation duration in ms
+      duration: 700,            // animation duration in ms
       easing: 'ease-out-cubic', // smooth deceleration
-      once: false,              // animate every time element enters viewport
-      mirror: true,             // animate OUT when scrolling past
-      offset: 80,               // trigger 80px before element is visible
+      once: true,               // animate only once (no replay on scroll-back)
+      mirror: false,            // do not animate OUT when scrolling past
+      offset: 60,               // trigger 60px before element is visible
       anchorPlacement: 'top-bottom'
     });
   },
