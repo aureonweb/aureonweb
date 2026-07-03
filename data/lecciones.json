@@ -21,7 +21,7 @@
     {
       "id": "anhelo-1",
       "title": { "es": "El Anhelo del Espacio", "en": "The Longing of Space" },
-      "text": { "es": "Un nuevo curso en línea impartido por la maestra Hui.<br><br>Experimenta la fusión total de la conciencia con el espacio infinito. Una aplicación del campo Qi que te brindará una experiencia profunda.<br><br>Las perspectivas holísticas resultantes trascienden la experiencia personal y reprogramarán el subconsciente.", "en": "A new online course taught by Master Hui.<br><br>Experience the total fusion of consciousness with infinite space. An application of the Qi field that will provide a profound experience.<br><br>The resulting holistic perspectives transcend personal experience and will reprogram the subconscious." },
+      "text": { "es": "Un nuevo curso en línea impartido por el maestro Hui.<br><br>Experimenta la fusión total de la conciencia con el espacio infinito. Una aplicación del campo Qi que te brindará una experiencia profunda.<br><br>Las perspectivas holísticas resultantes trascienden la experiencia personal y reprogramarán el subconsciente.", "en": "A new online course taught by Master Hui.<br><br>Experience the total fusion of consciousness with infinite space. An application of the Qi field that will provide a profound experience.<br><br>The resulting holistic perspectives transcend personal experience and will reprogram the subconscious." },
       "price": "",
       "dates": { "es": "", "en": "" },
       "image": "assets/h09.png",
@@ -50,7 +50,7 @@
     {
       "id": "mem-1",
       "title": { "es": "Membresía Qi", "en": "Qi Membership" },
-      "text": { "es": "6 meses de sesiones semanales en vivo del curso online actual, impartido por la maestra Hui.<br><br>Una membresía diseñada para quienes desean profundizar en la práctica con acompañamiento continuo y acceso a un universo de contenido exclusivo.", "en": "6 months of weekly live sessions of the current online course, taught by Master Hui.<br><br>A membership designed for those who wish to deepen their practice with continuous guidance and access to a universe of exclusive content." },
+      "text": { "es": "6 meses de sesiones semanales en vivo del curso online actual, impartido por el maestro Hui.<br><br>Una membresía diseñada para quienes desean profundizar en la práctica con acompañamiento continuo y acceso a un universo de contenido exclusivo.", "en": "6 months of weekly live sessions of the current online course, taught by Master Hui.<br><br>A membership designed for those who wish to deepen their practice with continuous guidance and access to a universe of exclusive content." },
       "price": "",
       "dates": { "es": "Julio – Diciembre 2026", "en": "July – December 2026" },
       "image": "assets/h15.png",

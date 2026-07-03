@@ -1563,9 +1563,16 @@ body[data-profile="indira-y-hui"] .profile-content[data-for-profile="indira-y-hu
     flex-direction: column;
     gap: 10px;
   }
+  .promo-nav-bar {
+    padding: 10px 12px;
+  }
+  .promo-actions {
+    gap: 5px !important;
+  }
   .promo-advance-btn {
-    font-size: 0.72rem;
-    padding: 8px 14px;
+    font-size: 0.55rem;
+    padding: 6px 8px;
+    gap: 4px;
   }
   .qi-principles {
     font-size: 1.15rem;
