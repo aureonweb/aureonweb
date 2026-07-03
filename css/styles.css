@@ -60,6 +60,7 @@ body[data-profile='indira-y-hui'] {
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -207,6 +208,7 @@ ul, ol {
   transition: background-color 0.4s;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  overflow-x: hidden;
 }
 
 .main-header.scrolled {
@@ -219,9 +221,11 @@ ul, ol {
   align-items: center;
   padding: 12px 5%;
   max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
   position: relative;
   gap: 6px;
+  box-sizing: border-box;
 }
 
 /* Generic centered row */
@@ -997,13 +1001,17 @@ ul, ol {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 4px 10px;
+    gap: 2px 8px;
+    width: 100%;
+    overflow: hidden;
   }
 
   .nav-links a {
-    font-size: 0.65rem;
-    letter-spacing: 0.8px;
-    padding: 4px 6px;
+    font-size: 0.6rem;
+    letter-spacing: 0;
+    padding: 3px 5px;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .nav-links a::after {
@@ -1011,13 +1019,14 @@ ul, ol {
   }
 
   .header-inner {
-    padding: 8px 3%;
-    gap: 4px;
+    padding: 6px 2%;
+    gap: 3px;
   }
 
   .profile-btn {
-    padding: 5px 10px;
-    font-size: 0.65rem;
+    padding: 5px 8px;
+    font-size: 0.6rem;
+    letter-spacing: 0.5px;
   }
 
   .section {
@@ -1479,6 +1488,10 @@ body[data-profile="indira-y-hui"] .profile-content[data-for-profile="indira-y-hu
     gap: 10px;
   }
   .promo-arrow {
-    display: none;
+    width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
   }
+  .promo-prev { left: 8px; }
+  .promo-next { right: 8px; }
 }
