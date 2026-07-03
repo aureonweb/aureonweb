@@ -178,7 +178,8 @@ window.App = {
       'initSmoothScroll',
       'initHeader',
       'initMobileMenu',
-      'initPromotionsBanner'
+      'initPromotionsBanner',
+      'initMembershipBanner'
     ];
 
     modules.forEach(function (fn) {

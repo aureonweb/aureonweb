@@ -557,21 +557,19 @@ Components.initPromotionsBanner = function () {
 
   var carousel = document.getElementById('promo-carousel');
   var btnClose = document.querySelector('.promo-close');
-  var btnPrev = document.querySelector('.promo-prev');
-  var btnNext = document.querySelector('.promo-next');
-  
+  var btnAdvance = document.getElementById('promo-advance-btn');
+  var dotsContainer = document.getElementById('promo-dots');
   var footerBtn = document.getElementById('footer-promo-btn');
 
   var currentSlide = 0;
   var slidesCount = 0;
   var autoAdvanceInterval = null;
 
-  // Open the banner manually
+  // Open the banner
   function openBanner(e) {
     if (e) e.preventDefault();
     if (slidesCount > 0) {
       overlay.style.display = 'flex';
-      // Small timeout to allow display:flex to apply before transition
       setTimeout(function() {
         overlay.classList.add('show');
         resetInterval();
@@ -585,25 +583,41 @@ Components.initPromotionsBanner = function () {
     clearInterval(autoAdvanceInterval);
     setTimeout(function() {
       overlay.style.display = 'none';
-    }, 400); // match transition duration
+    }, 400);
+  }
+
+  // Update dots
+  function updateDots(index) {
+    if (!dotsContainer) return;
+    var dots = dotsContainer.querySelectorAll('.promo-dot');
+    dots.forEach(function(d, i) {
+      d.classList.toggle('active', i === index);
+    });
+  }
+
+  // Update advance button label depending on slide position
+  function updateAdvanceBtn(index) {
+    if (!btnAdvance) return;
+    if (index >= slidesCount - 1) {
+      btnAdvance.innerHTML = 'Contactar / Inscribirse <i class="bi bi-envelope-fill"></i>';
+      btnAdvance.classList.add('promo-advance-last');
+    } else {
+      btnAdvance.innerHTML = 'Más información <i class="bi bi-arrow-right"></i>';
+      btnAdvance.classList.remove('promo-advance-last');
+    }
   }
 
   function showSlide(index) {
     var slides = carousel.querySelectorAll('.promo-slide');
     if (!slides.length) return;
-    
-    // Wrap around
     if (index >= slides.length) index = 0;
     if (index < 0) index = slides.length - 1;
-    
     slides.forEach(function(s, i) {
-      if (i === index) {
-        s.classList.add('active');
-      } else {
-        s.classList.remove('active');
-      }
+      s.classList.toggle('active', i === index);
     });
     currentSlide = index;
+    updateDots(index);
+    updateAdvanceBtn(index);
   }
 
   function nextSlide() {
@@ -611,14 +625,9 @@ Components.initPromotionsBanner = function () {
     resetInterval();
   }
 
-  function prevSlide() {
-    showSlide(currentSlide - 1);
-    resetInterval();
-  }
-
   function resetInterval() {
     clearInterval(autoAdvanceInterval);
-    autoAdvanceInterval = setInterval(nextSlide, 5000);
+    autoAdvanceInterval = setInterval(nextSlide, 6000);
   }
 
   // Fetch promotions
@@ -627,78 +636,210 @@ Components.initPromotionsBanner = function () {
     .then(function(data) {
       var promotions = data.promotions || [];
       if (!promotions.length) return;
-      
+
       slidesCount = promotions.length;
-      
+
       // Determine language
       var lang = 'es';
       if (window.I18n && typeof window.I18n.getCurrentLanguage === 'function') {
         lang = window.I18n.getCurrentLanguage();
       }
-      
+
+      // Build slides HTML (no contact button inside each slide)
       var html = promotions.map(function(p, i) {
         var title = p.title && p.title[lang] ? p.title[lang] : (p.title && p.title.es ? p.title.es : '');
-        var text = p.text && p.text[lang] ? p.text[lang] : (p.text && p.text.es ? p.text.es : '');
-        var dates = p.dates && p.dates[lang] ? p.dates[lang] : (p.dates && p.dates.es ? p.dates.es : '');
-        
+        var text  = p.text  && p.text[lang]  ? p.text[lang]  : (p.text  && p.text.es  ? p.text.es  : '');
+        var dates = p.dates && p.dates[lang] ? p.dates[lang] : (p.dates && p.dates.es  ? p.dates.es  : '');
+
         return '' +
           '<div class="promo-slide" style="background-image: url(\'' + p.image + '\')">' +
             '<div class="promo-content">' +
               '<h2 class="promo-title">' + title + '</h2>' +
               '<div class="promo-meta">' +
                 (p.price ? '<span><i class="bi bi-tag-fill"></i> ' + p.price + '</span>' : '') +
-                (dates ? '<span><i class="bi bi-calendar-event-fill"></i> ' + dates + '</span>' : '') +
+                (dates   ? '<span><i class="bi bi-calendar-event-fill"></i> ' + dates + '</span>' : '') +
               '</div>' +
               '<p class="promo-text">' + text + '</p>' +
-              '<a href="#contact" class="cta-button filled btn-contact-promo" style="display:inline-block; font-size: 0.95rem;">Contactar / Inscribirse</a>' +
             '</div>' +
           '</div>';
       }).join('');
-      
+
       carousel.innerHTML = html;
+
+      // Build dots
+      if (dotsContainer) {
+        dotsContainer.innerHTML = promotions.map(function(_, i) {
+          return '<span class="promo-dot' + (i === 0 ? ' active' : '') + '"></span>';
+        }).join('');
+      }
+
       showSlide(0);
 
-      // Bind closing events
+      // Bind close
       if (btnClose) btnClose.addEventListener('click', closeBanner);
       overlay.addEventListener('click', function(e) {
         if (e.target === overlay) closeBanner();
       });
 
       // Bind footer button
-      if (footerBtn) {
-        footerBtn.addEventListener('click', openBanner);
-      }
-      
-      // Bind arrows
-      if (btnPrev) btnPrev.addEventListener('click', prevSlide);
-      if (btnNext) btnNext.addEventListener('click', nextSlide);
+      if (footerBtn) footerBtn.addEventListener('click', openBanner);
 
-      // Close when clicking the contact button
-      var contactBtns = carousel.querySelectorAll('.btn-contact-promo');
-      contactBtns.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
+      // Bind membership button
+      var btnMembership = document.getElementById('promo-membership-btn');
+      if (btnMembership) {
+        btnMembership.addEventListener('click', function(e) {
           e.preventDefault();
-          e.stopPropagation(); // prevent global smooth scroll from intercepting
+          e.stopPropagation();
           closeBanner();
-          var targetEl = document.querySelector('#contact');
-          if (targetEl) {
-            var HEADER_OFFSET = 80;
-            var targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
-            window.scrollTo({
-              top: targetPosition,
-              behavior: 'smooth'
-            });
+          if (window.openMembershipBanner) {
+            window.openMembershipBanner();
           }
         });
-      });
+      }
 
-      // Auto-open on first load after a small delay
-      setTimeout(function() {
-        openBanner();
-      }, 1500);
-      
+      // Advance button: next slide or contact on last
+      if (btnAdvance) {
+        btnAdvance.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (currentSlide >= slidesCount - 1) {
+            // Last slide → close and scroll to contact
+            closeBanner();
+            var targetEl = document.querySelector('#contact');
+            if (targetEl) {
+              var HEADER_OFFSET = 80;
+              var targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
+              window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            }
+          } else {
+            nextSlide();
+          }
+        });
+      }
+
+      // Auto-open after delay
+      setTimeout(function() { openBanner(); }, 1500);
     })
     .catch(function(err) {
       console.warn('Error fetching promotions:', err);
     });
+};
+
+/* ─────────────────────────────────────────────
+   9. Membership Banner (Carousel)
+   ───────────────────────────────────────────── */
+Components.initMembershipBanner = function () {
+  var overlay = document.getElementById('membership-banner-overlay');
+  if (!overlay) return;
+
+  var carousel = document.getElementById('membership-carousel');
+  var btnClose = document.getElementById('membership-close');
+  var btnAdvance = document.getElementById('membership-advance-btn');
+  var dotsContainer = document.getElementById('membership-dots');
+
+  var currentSlide = 0;
+  var slidesCount = 0;
+  var autoAdvanceInterval = null;
+
+  var slides = carousel.querySelectorAll('.promo-slide');
+  slidesCount = slides.length;
+  if (!slidesCount) return;
+
+  // Build dots
+  if (dotsContainer) {
+    dotsContainer.innerHTML = Array.from(slides).map(function(_, i) {
+      return '<span class="promo-dot' + (i === 0 ? ' active' : '') + '"></span>';
+    }).join('');
+  }
+
+  // Open the banner
+  function openBanner() {
+    overlay.style.display = 'flex';
+    setTimeout(function() {
+      overlay.classList.add('show');
+      resetInterval();
+    }, 10);
+  }
+  
+  // Expose to window for the promo banner button
+  window.openMembershipBanner = openBanner;
+
+  // Close the banner
+  function closeBanner() {
+    overlay.classList.remove('show');
+    clearInterval(autoAdvanceInterval);
+    setTimeout(function() {
+      overlay.style.display = 'none';
+    }, 400);
+  }
+
+  // Update dots
+  function updateDots(index) {
+    if (!dotsContainer) return;
+    var dots = dotsContainer.querySelectorAll('.promo-dot');
+    dots.forEach(function(d, i) {
+      d.classList.toggle('active', i === index);
+    });
+  }
+
+  // Update advance button label
+  function updateAdvanceBtn(index) {
+    if (!btnAdvance) return;
+    if (index >= slidesCount - 1) {
+      btnAdvance.innerHTML = 'Contactar / Inscribirse <i class="bi bi-envelope-fill"></i>';
+      btnAdvance.classList.add('promo-advance-last');
+    } else {
+      btnAdvance.innerHTML = 'Siguiente <i class="bi bi-arrow-right"></i>';
+      btnAdvance.classList.remove('promo-advance-last');
+    }
+  }
+
+  function showSlide(index) {
+    if (index >= slidesCount) index = 0;
+    if (index < 0) index = slidesCount - 1;
+    slides.forEach(function(s, i) {
+      s.classList.toggle('active', i === index);
+    });
+    currentSlide = index;
+    updateDots(index);
+    updateAdvanceBtn(index);
+  }
+
+  function nextSlide() {
+    showSlide(currentSlide + 1);
+    resetInterval();
+  }
+
+  function resetInterval() {
+    clearInterval(autoAdvanceInterval);
+    autoAdvanceInterval = setInterval(nextSlide, 6000);
+  }
+
+  showSlide(0);
+
+  // Bind close
+  if (btnClose) btnClose.addEventListener('click', closeBanner);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeBanner();
+  });
+
+  // Advance button
+  if (btnAdvance) {
+    btnAdvance.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (currentSlide >= slidesCount - 1) {
+        // Last slide -> close and scroll to contact
+        closeBanner();
+        var targetEl = document.querySelector('#contact');
+        if (targetEl) {
+          var HEADER_OFFSET = 80;
+          var targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
+          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+        }
+      } else {
+        nextSlide();
+      }
+    });
+  }
 };

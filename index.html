@@ -446,8 +446,77 @@
                 <!-- Promo slides will be injected here via JS -->
             </div>
 
-            <button class="promo-arrow promo-prev"><i class="bi bi-chevron-left"></i></button>
-            <button class="promo-arrow promo-next"><i class="bi bi-chevron-right"></i></button>
+            <div class="promo-nav-bar">
+                <div class="promo-dots" id="promo-dots"></div>
+                <div class="promo-actions" style="display: flex; gap: 10px;">
+                    <button class="promo-advance-btn membership-btn" id="promo-membership-btn" style="background: #ffffff; color: var(--bg-color);">
+                        MEMBRESÍA
+                    </button>
+                    <button class="promo-advance-btn" id="promo-advance-btn">
+                        Más información <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         MEMBERSHIP BANNER
+         ======================================== -->
+    <div id="membership-banner-overlay" class="promo-overlay" style="display: none;">
+        <div class="promo-modal">
+            <button class="promo-close" id="membership-close" aria-label="Cerrar banner">&times;</button>
+            
+            <div class="promo-carousel-container" id="membership-carousel">
+                <div class="promo-slide active" style="background-image: url('assets/h01.png')">
+                    <div class="promo-content">
+                        <h2 class="promo-title">Membresía Qi</h2>
+                        <div class="promo-meta">
+                            <span><i class="bi bi-calendar-event-fill"></i> Julio-Diciembre de 2026</span>
+                            <span><i class="bi bi-tag-fill"></i> 250 € - 286 $ - 5000 MCP</span>
+                        </div>
+                        <p class="promo-text">6 meses de sesiones semanales en vivo del curso online actual.</p>
+                    </div>
+                </div>
+                <div class="promo-slide" style="background-image: url('assets/h02.png')">
+                    <div class="promo-content">
+                        <h2 class="promo-title">Exclusivo para miembros</h2>
+                        <div class="promo-meta">
+                            <span><i class="bi bi-star-fill"></i> Sin costo alguno</span>
+                        </div>
+                        <ul class="promo-list" style="color: rgba(255, 255, 255, 0.9); font-size: 1rem; line-height: 1.6; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-bottom: 20px; list-style-type: none; padding-left: 0;">
+                            <li><i class="bi bi-check2-circle" style="color: var(--accent-color); margin-right: 8px;"></i> Grabaciones de 4 cursos anteriores sobre el tema del "Flujo"</li>
+                            <li><i class="bi bi-check2-circle" style="color: var(--accent-color); margin-right: 8px;"></i> Curso práctico de "Ba Duan Jin" (Indira y Hui)</li>
+                            <li><i class="bi bi-check2-circle" style="color: var(--accent-color); margin-right: 8px;"></i> 6 sesiones de sanación (Indira y Hui)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="promo-slide" style="background-image: url('assets/h03.png')">
+                    <div class="promo-content">
+                        <h2 class="promo-title">Beneficios Adicionales</h2>
+                        <div class="promo-meta">
+                            <span><i class="bi bi-percent"></i> 50% de descuento</span>
+                        </div>
+                        <p class="promo-text" style="margin-bottom: 10px;">En el acceso a otros cursos online:</p>
+                        <ul class="promo-list" style="color: rgba(255, 255, 255, 0.9); font-size: 0.9rem; line-height: 1.4; text-shadow: 0 2px 4px rgba(0,0,0,0.8); list-style-type: none; padding-left: 0;">
+                            <li style="margin-bottom: 4px;"><i class="bi bi-book-half" style="color: var(--accent-color); margin-right: 8px;"></i> Formación de profesores de Ba Duan Jin</li>
+                            <li style="margin-bottom: 4px;"><i class="bi bi-book-half" style="color: var(--accent-color); margin-right: 8px;"></i> Formación de profesores de Cuerpo y Mente</li>
+                            <li style="margin-bottom: 4px;"><i class="bi bi-book-half" style="color: var(--accent-color); margin-right: 8px;"></i> Siempre Joven</li>
+                            <li style="margin-bottom: 4px;"><i class="bi bi-book-half" style="color: var(--accent-color); margin-right: 8px;"></i> ¿Qué es el Qi?</li>
+                            <li><i class="bi bi-airplane-engines" style="color: var(--accent-color); margin-right: 8px;"></i> Viaje a China</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="promo-nav-bar">
+                <div class="promo-dots" id="membership-dots"></div>
+                <div class="promo-actions" style="display: flex; gap: 10px;">
+                    <button class="promo-advance-btn" id="membership-advance-btn">
+                        Siguiente <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 

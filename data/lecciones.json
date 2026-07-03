@@ -19,40 +19,60 @@
   },
   "promotions": [
     {
-      "id": "promo-1",
-      "title": { "es": "Retiro de Inmersión Total", "en": "Total Immersion Retreat" },
-      "text": { "es": "Únete a nuestro retiro intensivo de fin de semana para profundizar en la práctica.", "en": "Join our weekend intensive retreat to deepen the practice." },
-      "price": "$250 USD",
-      "dates": { "es": "15 al 17 de Agosto", "en": "August 15 - 17" },
-      "image": "assets/s01.png",
+      "id": "anhelo-1",
+      "title": { "es": "El Anhelo del Espacio", "en": "The Longing of Space" },
+      "text": { "es": "Un nuevo curso en línea impartido por la maestra Hui.<br><br>Experimenta la fusión total de la conciencia con el espacio infinito. Una aplicación del campo Qi que te brindará una experiencia profunda.<br><br>Las perspectivas holísticas resultantes trascienden la experiencia personal y reprogramarán el subconsciente.", "en": "A new online course taught by Master Hui.<br><br>Experience the total fusion of consciousness with infinite space. An application of the Qi field that will provide a profound experience.<br><br>The resulting holistic perspectives transcend personal experience and will reprogram the subconscious." },
+      "price": "",
+      "dates": { "es": "", "en": "" },
+      "image": "assets/h09.png",
       "order": 0
     },
     {
-      "id": "promo-2",
-      "title": { "es": "Curso de Nivel 1", "en": "Level 1 Course" },
-      "text": { "es": "Inicia tu camino en ZhìNéng QìGōng aprendiendo las bases del primer nivel.", "en": "Start your path in ZhìNéng QìGōng by learning the basics of the first level." },
-      "price": "$120 USD",
-      "dates": { "es": "Inicia 1 de Septiembre", "en": "Starts September 1st" },
-      "image": "assets/s02.png",
+      "id": "anhelo-2",
+      "title": { "es": "El Qi y el Espacio", "en": "Qi and Space" },
+      "text": { "es": "<em class=\"qi-principles\">El Qi crea espacio.<br>El Qi nutre el espacio.<br>El Qi mueve el espacio.<br>El espacio se experimenta a sí mismo.</em>", "en": "<em class=\"qi-principles\">Qi creates space.<br>Qi nurtures space.<br>Qi moves space.<br>Space experiences itself.</em>" },
+      "price": "",
+      "dates": { "es": "", "en": "" },
+      "image": "assets/h21.png",
       "order": 1
     },
     {
-      "id": "promo-3",
-      "title": { "es": "Taller de Sanación", "en": "Healing Workshop" },
-      "text": { "es": "Taller enfocado en recuperar la salud y activar el campo de curación interior.", "en": "Workshop focused on recovering health and activating the inner healing field." },
-      "price": "$50 USD",
-      "dates": { "es": "25 de Septiembre", "en": "September 25th" },
-      "image": "assets/s03.png",
+      "id": "anhelo-3",
+      "title": { "es": "Detalles del Curso", "en": "Course Details" },
+      "text": { "es": "<ul class=\"promo-list\"><li><i class='bi bi-collection-play'></i> 12 sesiones de una hora cada una</li><li><i class='bi bi-person-video3'></i> Ejercicios físicos (flujo) y meditación</li><li><i class='bi bi-calendar-week'></i> Del 18 de julio al 3 de octubre · Sábados</li><li><i class='bi bi-clock'></i> 21:00 – 22:00 (hora de Pekín)</li></ul>", "en": "<ul class=\"promo-list\"><li><i class='bi bi-collection-play'></i> 12 sessions of one hour each</li><li><i class='bi bi-person-video3'></i> Physical exercises (flow) and meditation</li><li><i class='bi bi-calendar-week'></i> July 18 – October 3 · Saturdays</li><li><i class='bi bi-clock'></i> 21:00 – 22:00 (Beijing time)</li></ul>" },
+      "price": "150 € · $172 USD · $3,000 MXN",
+      "dates": { "es": "18 Jul – 3 Oct · Sábados", "en": "Jul 18 – Oct 3 · Saturdays" },
+      "image": "assets/h27.png",
       "order": 2
+    }
+  ],
+  "memberships": [
+    {
+      "id": "mem-1",
+      "title": { "es": "Membresía Qi", "en": "Qi Membership" },
+      "text": { "es": "6 meses de sesiones semanales en vivo del curso online actual, impartido por la maestra Hui.<br><br>Una membresía diseñada para quienes desean profundizar en la práctica con acompañamiento continuo y acceso a un universo de contenido exclusivo.", "en": "6 months of weekly live sessions of the current online course, taught by Master Hui.<br><br>A membership designed for those who wish to deepen their practice with continuous guidance and access to a universe of exclusive content." },
+      "price": "",
+      "dates": { "es": "Julio – Diciembre 2026", "en": "July – December 2026" },
+      "image": "assets/h15.png",
+      "order": 0
     },
     {
-      "id": "promo-4",
-      "title": { "es": "Certificación de Instructores", "en": "Instructor Certification" },
-      "text": { "es": "Conviértete en instructor certificado y comparte el beneficio con más personas.", "en": "Become a certified instructor and share the benefit with more people." },
-      "price": "Consultar",
-      "dates": { "es": "Octubre 2026", "en": "October 2026" },
-      "image": "assets/s04.png",
-      "order": 3
+      "id": "mem-2",
+      "title": { "es": "Contenido Exclusivo para Miembros", "en": "Exclusive Member Content" },
+      "text": { "es": "<ul class=\"promo-list\"><li><i class='bi bi-camera-video-fill'></i> Grabaciones de 4 cursos anteriores sobre el tema del <em>Flujo</em></li><li><i class='bi bi-person-video3'></i> Curso práctico de <em>Ba Duan Jin</em> (Indira y Hui)</li><li><i class='bi bi-heart-pulse-fill'></i> 6 sesiones de sanación (Indira y Hui)</li></ul><br><p style=\"font-size:0.9rem; color:rgba(255,255,255,0.75);\">Todo este contenido está incluido en tu membresía sin costo adicional.</p>", "en": "<ul class=\"promo-list\"><li><i class='bi bi-camera-video-fill'></i> Recordings of 4 previous courses on the topic of <em>Flow</em></li><li><i class='bi bi-person-video3'></i> Practical course on <em>Ba Duan Jin</em> (Indira and Hui)</li><li><i class='bi bi-heart-pulse-fill'></i> 6 healing sessions (Indira and Hui)</li></ul><br><p style=\"font-size:0.9rem; color:rgba(255,255,255,0.75);\">All this content is included in your membership at no additional cost.</p>" },
+      "price": "",
+      "dates": { "es": "", "en": "" },
+      "image": "assets/h17.png",
+      "order": 1
+    },
+    {
+      "id": "mem-3",
+      "title": { "es": "50% de Descuento en Otros Cursos", "en": "50% Off Other Courses" },
+      "text": { "es": "<ul class=\"promo-list\"><li><i class='bi bi-patch-check-fill'></i> Formación de profesores de <em>Ba Duan Jin</em></li><li><i class='bi bi-patch-check-fill'></i> Formación de profesores de <em>Cuerpo y Mente</em></li><li><i class='bi bi-patch-check-fill'></i> <em>Siempre Joven</em></li><li><i class='bi bi-patch-check-fill'></i> <em>¿Qué es el Qi?</em></li><li><i class='bi bi-patch-check-fill'></i> <em>Viaje a China</em></li></ul>", "en": "<ul class=\"promo-list\"><li><i class='bi bi-patch-check-fill'></i> <em>Ba Duan Jin</em> Teacher Training</li><li><i class='bi bi-patch-check-fill'></i> <em>Body and Mind</em> Teacher Training</li><li><i class='bi bi-patch-check-fill'></i> <em>Forever Young</em></li><li><i class='bi bi-patch-check-fill'></i> <em>What is Qi?</em></li><li><i class='bi bi-patch-check-fill'></i> <em>Journey to China</em></li></ul>" },
+      "price": "250 € · $286 USD · $5,000 MXN",
+      "dates": { "es": "Julio – Diciembre 2026", "en": "July – December 2026" },
+      "image": "assets/h20.png",
+      "order": 2
     }
   ],
   "modules": [
