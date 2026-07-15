@@ -17,6 +17,35 @@
 window.Components = window.Components || {};
 
 /* ─────────────────────────────────────────────
+   0. WhatsApp helpers (shared)
+   ───────────────────────────────────────────── */
+
+/** Número de WhatsApp del sitio (formato internacional, solo dígitos). */
+Components.WHATSAPP_NUMBER = '5215541940880';
+
+/**
+ * Translate helper with fallback when I18n is unavailable
+ * or the key is missing.
+ */
+Components.t = function (key, fallback) {
+  if (window.I18n && typeof window.I18n.t === 'function') {
+    var val = window.I18n.t(key);
+    if (val && val !== key) return val;
+  }
+  return fallback;
+};
+
+/**
+ * Open WhatsApp chat with a prefilled message (new tab).
+ * @param {string} message
+ */
+Components.openWhatsApp = function (message) {
+  var url = 'https://wa.me/' + Components.WHATSAPP_NUMBER +
+            '?text=' + encodeURIComponent(message || '');
+  window.open(url, '_blank', 'noopener');
+};
+
+/* ─────────────────────────────────────────────
    1. FAQ Accordion
    ───────────────────────────────────────────── */
 Components.initFAQ = function () {
@@ -149,13 +178,11 @@ Components.initTestimonials = function () {
 };
 
 /* ─────────────────────────────────────────────
-   3. Contact Form (Formspree)
+   3. Contact Form (WhatsApp)
    ───────────────────────────────────────────── */
 Components.initContactForm = function () {
   var form = document.getElementById('contact-form');
   if (!form) return;
-
-  var _isSubmitting = false;
 
   /**
    * Simple email regex – covers the vast majority of valid addresses.
@@ -210,9 +237,6 @@ Components.initContactForm = function () {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    // Prevent double submission
-    if (_isSubmitting) return;
-
     // Gather field values
     var nameField = form.querySelector('[name="nombre"], [name="name"]');
     var emailField = form.querySelector('[name="email"]');
@@ -224,18 +248,13 @@ Components.initContactForm = function () {
     var subjectVal = subjectField ? subjectField.value.trim() : '';
     var messageVal = messageField ? messageField.value.trim() : '';
 
-    // ── Validation ───────────────────────────
+    // ── Validation (el correo es opcional) ────
     if (!nameVal) {
       _showStatus('Por favor, ingresa tu nombre.', 'error');
       if (nameField) nameField.focus();
       return;
     }
-    if (!emailVal) {
-      _showStatus('Por favor, ingresa tu correo electrónico.', 'error');
-      if (emailField) emailField.focus();
-      return;
-    }
-    if (!_isValidEmail(emailVal)) {
+    if (emailVal && !_isValidEmail(emailVal)) {
       _showStatus('Por favor, ingresa un correo electrónico válido.', 'error');
       if (emailField) emailField.focus();
       return;
@@ -251,64 +270,21 @@ Components.initContactForm = function () {
       return;
     }
 
-    // ── Submission ───────────────────────────
-    _isSubmitting = true;
-    var submitBtn = form.querySelector('[type="submit"]');
-    var originalBtnText = '';
+    // ── Compose personalized WhatsApp message ──
+    var intro   = Components.t('wa.contact.intro',   'Hola, soy');
+    var subjLbl = Components.t('wa.contact.subject', 'Asunto');
+    var mailLbl = Components.t('wa.contact.email',   'Correo');
 
-    if (submitBtn) {
-      originalBtnText = submitBtn.textContent;
-      submitBtn.textContent = 'Enviando…';
-      submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.6';
+    var waMessage = intro + ' ' + nameVal + '.\n' +
+                    '*' + subjLbl + ':* ' + subjectVal + '\n\n' +
+                    messageVal;
+    if (emailVal) {
+      waMessage += '\n\n' + mailLbl + ': ' + emailVal;
     }
 
-    // Determine action URL from the form's action attribute
-    var actionURL = form.getAttribute('action');
-    if (!actionURL) {
-      _showStatus('Error de configuración: falta la URL de envío.', 'error');
-      _isSubmitting = false;
-      if (submitBtn) {
-        submitBtn.textContent = originalBtnText;
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = '';
-      }
-      return;
-    }
-
-    // Build form data
-    var formData = new FormData(form);
-
-    fetch(actionURL, {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    })
-      .then(function (response) {
-        if (response.ok) {
-          _showStatus('¡Mensaje enviado con éxito! Te responderemos pronto.', 'success');
-          form.reset();
-        } else {
-          return response.json().then(function (data) {
-            var errorMsg = 'Error al enviar el mensaje.';
-            if (data && data.errors) {
-              errorMsg = data.errors.map(function (err) { return err.message; }).join(', ');
-            }
-            _showStatus(errorMsg, 'error');
-          });
-        }
-      })
-      .catch(function () {
-        _showStatus('Error de red. Por favor, inténtalo de nuevo.', 'error');
-      })
-      .finally(function () {
-        _isSubmitting = false;
-        if (submitBtn) {
-          submitBtn.textContent = originalBtnText;
-          submitBtn.disabled = false;
-          submitBtn.style.opacity = '';
-        }
-      });
+    Components.openWhatsApp(waMessage);
+    _showStatus(Components.t('contact.success', '¡Listo! Se abrió WhatsApp con tu mensaje.'), 'success');
+    form.reset();
   });
 };
 
@@ -564,6 +540,7 @@ Components.initPromotionsBanner = function () {
   var currentSlide = 0;
   var slidesCount = 0;
   var autoAdvanceInterval = null;
+  var courseTitle = '';   // título del curso promocionado (para el mensaje de WhatsApp)
 
   // Open the banner
   function openBanner(e) {
@@ -599,10 +576,10 @@ Components.initPromotionsBanner = function () {
   function updateAdvanceBtn(index) {
     if (!btnAdvance) return;
     if (index >= slidesCount - 1) {
-      btnAdvance.innerHTML = 'Contactar / Inscribirse <i class="bi bi-envelope-fill"></i>';
+      btnAdvance.innerHTML = Components.t('promo.contact', 'Contactar por WhatsApp') + ' <i class="bi bi-whatsapp"></i>';
       btnAdvance.classList.add('promo-advance-last');
     } else {
-      btnAdvance.innerHTML = 'Más información <i class="bi bi-arrow-right"></i>';
+      btnAdvance.innerHTML = Components.t('promo.more', 'Más información') + ' <i class="bi bi-arrow-right"></i>';
       btnAdvance.classList.remove('promo-advance-last');
     }
   }
@@ -644,6 +621,10 @@ Components.initPromotionsBanner = function () {
       if (window.I18n && typeof window.I18n.getCurrentLanguage === 'function') {
         lang = window.I18n.getCurrentLanguage();
       }
+
+      // Título del curso para el mensaje de WhatsApp (primera promoción)
+      var p0 = promotions[0];
+      courseTitle = (p0.title && (p0.title[lang] || p0.title.es)) || '';
 
       // Build slides HTML (no contact button inside each slide)
       var html = promotions.map(function(p, i) {
@@ -697,20 +678,22 @@ Components.initPromotionsBanner = function () {
         });
       }
 
-      // Advance button: next slide or contact on last
+      // Advance button: next slide or WhatsApp contact on last
       if (btnAdvance) {
         btnAdvance.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
           if (currentSlide >= slidesCount - 1) {
-            // Last slide → close and scroll to contact
-            closeBanner();
-            var targetEl = document.querySelector('#contact');
-            if (targetEl) {
-              var HEADER_OFFSET = 80;
-              var targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
-              window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            // Last slide → open WhatsApp with a personalized message
+            var msg;
+            if (courseTitle) {
+              msg = Components.t('wa.course.msg', 'Hola 👋 Me interesa el curso «{title}» y me gustaría recibir más información.')
+                    .replace('{title}', courseTitle);
+            } else {
+              msg = Components.t('wa.generic.msg', 'Hola 👋 Me gustaría recibir más información sobre sus cursos y actividades.');
             }
+            Components.openWhatsApp(msg);
+            closeBanner();
           } else {
             nextSlide();
           }
@@ -727,6 +710,9 @@ Components.initPromotionsBanner = function () {
 
 /* ─────────────────────────────────────────────
    9. Membership Banner (Carousel)
+   Las diapositivas se cargan desde data/lecciones.json
+   ("memberships", editable en el panel de administración).
+   Si el JSON no trae ninguna, se usan las estáticas del HTML.
    ───────────────────────────────────────────── */
 Components.initMembershipBanner = function () {
   var overlay = document.getElementById('membership-banner-overlay');
@@ -740,27 +726,33 @@ Components.initMembershipBanner = function () {
   var currentSlide = 0;
   var slidesCount = 0;
   var autoAdvanceInterval = null;
+  var slides = [];
 
-  var slides = carousel.querySelectorAll('.promo-slide');
-  slidesCount = slides.length;
-  if (!slidesCount) return;
+  function setup() {
+    slides = Array.prototype.slice.call(carousel.querySelectorAll('.promo-slide'));
+    slidesCount = slides.length;
+    if (!slidesCount) return;
 
-  // Build dots
-  if (dotsContainer) {
-    dotsContainer.innerHTML = Array.from(slides).map(function(_, i) {
-      return '<span class="promo-dot' + (i === 0 ? ' active' : '') + '"></span>';
-    }).join('');
+    // Build dots
+    if (dotsContainer) {
+      dotsContainer.innerHTML = slides.map(function(_, i) {
+        return '<span class="promo-dot' + (i === 0 ? ' active' : '') + '"></span>';
+      }).join('');
+    }
+
+    showSlide(0);
   }
 
   // Open the banner
   function openBanner() {
+    if (!slidesCount) return;
     overlay.style.display = 'flex';
     setTimeout(function() {
       overlay.classList.add('show');
       resetInterval();
     }, 10);
   }
-  
+
   // Expose to window for the promo banner button
   window.openMembershipBanner = openBanner;
 
@@ -786,10 +778,10 @@ Components.initMembershipBanner = function () {
   function updateAdvanceBtn(index) {
     if (!btnAdvance) return;
     if (index >= slidesCount - 1) {
-      btnAdvance.innerHTML = 'Contactar / Inscribirse <i class="bi bi-envelope-fill"></i>';
+      btnAdvance.innerHTML = Components.t('promo.contact', 'Contactar por WhatsApp') + ' <i class="bi bi-whatsapp"></i>';
       btnAdvance.classList.add('promo-advance-last');
     } else {
-      btnAdvance.innerHTML = 'Siguiente <i class="bi bi-arrow-right"></i>';
+      btnAdvance.innerHTML = Components.t('promo.next', 'Siguiente') + ' <i class="bi bi-arrow-right"></i>';
       btnAdvance.classList.remove('promo-advance-last');
     }
   }
@@ -815,8 +807,6 @@ Components.initMembershipBanner = function () {
     autoAdvanceInterval = setInterval(nextSlide, 6000);
   }
 
-  showSlide(0);
-
   // Bind close
   if (btnClose) btnClose.addEventListener('click', closeBanner);
   overlay.addEventListener('click', function(e) {
@@ -829,17 +819,53 @@ Components.initMembershipBanner = function () {
       e.preventDefault();
       e.stopPropagation();
       if (currentSlide >= slidesCount - 1) {
-        // Last slide -> close and scroll to contact
+        // Last slide → open WhatsApp with the membership message
+        Components.openWhatsApp(
+          Components.t('wa.membership.msg', 'Hola 👋 Me interesa la Membresía Qi y me gustaría recibir más información.')
+        );
         closeBanner();
-        var targetEl = document.querySelector('#contact');
-        if (targetEl) {
-          var HEADER_OFFSET = 80;
-          var targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
-          window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-        }
       } else {
         nextSlide();
       }
     });
   }
+
+  // Initialize with the static slides right away (fallback)…
+  setup();
+
+  // …and replace them with the published ones, if any
+  fetch('data/lecciones.json?t=' + Date.now())
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      var memberships = data.memberships || [];
+      if (!memberships.length) return;
+
+      var lang = 'es';
+      if (window.I18n && typeof window.I18n.getCurrentLanguage === 'function') {
+        lang = window.I18n.getCurrentLanguage();
+      }
+
+      carousel.innerHTML = memberships.map(function(m) {
+        var title = m.title && (m.title[lang] || m.title.es) || '';
+        var text  = m.text  && (m.text[lang]  || m.text.es)  || '';
+        var dates = m.dates && (m.dates[lang] || m.dates.es) || '';
+
+        return '' +
+          '<div class="promo-slide" style="background-image: url(\'' + (m.image || '') + '\')">' +
+            '<div class="promo-content">' +
+              '<h2 class="promo-title">' + title + '</h2>' +
+              '<div class="promo-meta">' +
+                (dates   ? '<span><i class="bi bi-calendar-event-fill"></i> ' + dates + '</span>' : '') +
+                (m.price ? '<span><i class="bi bi-tag-fill"></i> ' + m.price + '</span>' : '') +
+              '</div>' +
+              '<p class="promo-text">' + text + '</p>' +
+            '</div>' +
+          '</div>';
+      }).join('');
+
+      setup();
+    })
+    .catch(function(err) {
+      console.warn('Error fetching memberships:', err);
+    });
 };

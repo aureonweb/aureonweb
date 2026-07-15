@@ -302,6 +302,7 @@ window.AulaData = (function () {
         }
       },
       promotions: [],
+      memberships: [],
       modules: []
     };
   }
@@ -377,6 +378,9 @@ window.AulaData = (function () {
 
     base.promotions = (data.promotions || []).map(normalizePromotion);
     base.promotions.sort(function (a, b) { return a.order - b.order; });
+
+    base.memberships = (data.memberships || []).map(normalizePromotion);
+    base.memberships.sort(function (a, b) { return a.order - b.order; });
 
     base.modules = (data.modules || []).map(normalizeModule);
     base.modules.sort(function (a, b) { return a.order - b.order; });

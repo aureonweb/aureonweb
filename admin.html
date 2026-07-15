@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Panel del Aula — Vida ZhìNéng QìGōng</title>
+    <title>Panel del Aula — AUREON</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,7 +47,7 @@
         <!-- Pestañas -->
         <div class="admin-tabs">
             <button class="admin-tab active" data-tab="content"><i class="bi bi-collection-play"></i> Contenido</button>
-            <button class="admin-tab" data-tab="promotions"><i class="bi bi-megaphone"></i> Promociones</button>
+            <button class="admin-tab" data-tab="promotions"><i class="bi bi-megaphone"></i> Banners</button>
             <button class="admin-tab" data-tab="settings"><i class="bi bi-sliders"></i> Ajustes</button>
             <button class="admin-tab" data-tab="connect"><i class="bi bi-github"></i> Conexión</button>
             <button class="admin-tab" data-tab="help"><i class="bi bi-question-circle"></i> Ayuda</button>
@@ -68,17 +68,27 @@
             </div>
         </div>
 
-        <!-- ===== PANE: PROMOCIONES ===== -->
+        <!-- ===== PANE: BANNERS (PROMOCIONES + MEMBRESÍA) ===== -->
         <div class="admin-pane" id="pane-promotions">
             <div class="inline-note">
-                Administra las <b>promociones</b> que aparecen en el banner flotante al abrir la página.
-                Se muestran como un carrusel.
+                Administra los <b>banners</b> que aparecen al abrir la página principal.
+                El banner de <b>promociones</b> se abre automáticamente al entrar; el de
+                <b>membresía</b> se abre con el botón MEMBRESÍA. Ambos se muestran como carrusel.
+                En el campo <b>Texto</b> escribe con normalidad: selecciona palabras y usa los
+                botones <i class="bi bi-type-bold"></i> <i class="bi bi-type-italic"></i>
+                <i class="bi bi-list-ul"></i> para dar formato, sin código.
             </div>
 
+            <h2 style="margin:18px 0 10px;"><i class="bi bi-megaphone"></i> Banner de promociones (arranque)</h2>
             <div id="promotions-host"></div>
-
             <div class="admin-actions-row">
-                <button class="btn filled" id="btn-add-promotion"><i class="bi bi-plus-lg"></i> Agregar promoción</button>
+                <button class="btn filled" id="btn-add-promotion"><i class="bi bi-plus-lg"></i> Agregar diapositiva de promoción</button>
+            </div>
+
+            <h2 style="margin:28px 0 10px;"><i class="bi bi-star"></i> Banner de membresía</h2>
+            <div id="memberships-host"></div>
+            <div class="admin-actions-row">
+                <button class="btn filled" id="btn-add-membership"><i class="bi bi-plus-lg"></i> Agregar diapositiva de membresía</button>
             </div>
         </div>
 
@@ -143,7 +153,25 @@
         <!-- ===== PANE: CONEXIÓN ===== -->
         <div class="admin-pane" id="pane-connect">
             <div class="admin-card">
-                <h2><i class="bi bi-github"></i> Publicación en GitHub Pages</h2>
+                <h2><i class="bi bi-magic"></i> Configuración rápida</h2>
+                <p class="card-hint">
+                    ¿Te compartieron un <b>código de configuración</b>? Pégalo aquí y pulsa
+                    <b>Activar</b>. Con eso el botón <b>Publicar</b> queda listo — no necesitas
+                    llenar nada más.
+                </p>
+                <div class="field">
+                    <label>Código de configuración</label>
+                    <textarea id="cfg-code" placeholder="Pega aquí el código que te compartieron (empieza con ZNQG1.)" spellcheck="false" style="min-height:70px;"></textarea>
+                </div>
+                <div class="admin-actions-row">
+                    <button class="btn filled small" id="btn-apply-cfg"><i class="bi bi-check2-circle"></i> Activar configuración</button>
+                    <button class="btn ghost small" id="btn-gen-cfg" title="Genera un código con los datos de abajo para compartirlo"><i class="bi bi-clipboard-plus"></i> Generar código para compartir</button>
+                </div>
+                <div class="code-msg" id="cfg-msg" style="margin-top:12px;"></div>
+            </div>
+
+            <div class="admin-card">
+                <h2><i class="bi bi-github"></i> Publicación en GitHub Pages (avanzado)</h2>
                 <p class="card-hint">
                     Estos datos permiten que el botón <b>Publicar</b> guarde los cambios directamente
                     en tu sitio. Se guardan solo en <b>este navegador</b> (no se suben al sitio).

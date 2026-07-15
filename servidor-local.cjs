@@ -60,7 +60,7 @@ function tryListen() {
     const base = 'http://localhost:' + port;
     console.log('');
     console.log('  ======================================================');
-    console.log('    Vida ZhiNeng QiGong  -  servidor local ACTIVO');
+    console.log('    AUREON  -  servidor local ACTIVO');
     console.log('  ======================================================');
     console.log('    Sitio:  ' + base + '/');
     console.log('    Aula:   ' + base + '/aula.html');

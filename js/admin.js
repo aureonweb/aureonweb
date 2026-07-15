@@ -90,6 +90,9 @@
      ───────────────────────────────────────────── */
 
   function initGate() {
+    // Si llegó por un enlace de configuración, instalarla antes que nada
+    var cfgInstalled = installConfigFromUrl();
+
     var stored = null;
     try { stored = localStorage.getItem(K.pass); } catch (_e) {}
     var setupMode = !stored;
@@ -102,6 +105,12 @@
       txt.textContent = 'Crea una contraseña para tu panel (se guarda solo en este navegador).';
       pass2.style.display = 'block';
       btn.textContent = 'Crear y entrar';
+    }
+
+    if (cfgInstalled) {
+      var gmsg = $('#gate-msg');
+      gmsg.style.color = '';
+      gmsg.textContent = '✓ Configuración de publicación instalada correctamente.';
     }
 
     function attempt() {
@@ -142,6 +151,9 @@
   function appInit() {
     try { originalCode = localStorage.getItem(K.code) || ''; } catch (_e) {}
 
+    // En los editores enriquecidos, Enter inserta <br> (igual que en los textos del sitio)
+    try { document.execCommand('defaultParagraphSeparator', false, 'br'); } catch (_e) {}
+
     bindTabs();
     bindTopbar();
     bindSettings();
@@ -154,6 +166,7 @@
       loadSettingsIntoForm();
       renderModules();
       renderPromotions();
+      renderMemberships();
     });
   }
 
@@ -176,6 +189,8 @@
   function bindTopbar() {
     $('#btn-add-module').addEventListener('click', addModule);
     $('#btn-add-promotion').addEventListener('click', addPromotion);
+    var addMemBtn = $('#btn-add-membership');
+    if (addMemBtn) addMemBtn.addEventListener('click', addMembership);
     $('#btn-publish').addEventListener('click', publish);
     $('#btn-export').addEventListener('click', exportJson);
     $('#btn-import').addEventListener('click', function () { $('#import-file').click(); });
@@ -196,7 +211,20 @@
     var raw = null;
     try { raw = localStorage.getItem(K.draft); } catch (_e) {}
     if (raw) {
-      try { draft = AD.normalize(JSON.parse(raw)); return Promise.resolve(); } catch (_e) {}
+      try {
+        draft = AD.normalize(JSON.parse(raw));
+        // Compatibilidad: los borradores antiguos no traían "memberships".
+        // Si el sitio publicado ya las tiene, recuperarlas para no perderlas al publicar.
+        if (!draft.memberships.length) {
+          return AD.loadContent({ bust: true }).then(function (content) {
+            if (content.memberships && content.memberships.length) {
+              draft.memberships = content.memberships;
+              save();
+            }
+          });
+        }
+        return Promise.resolve();
+      } catch (_e) {}
     }
     // Primera vez: tomar el contenido publicado como punto de partida
     return AD.loadContent({ bust: true }).then(function (content) {
@@ -226,6 +254,9 @@
   function getPromotion(id) {
     return draft.promotions.filter(function (p) { return p.id === id; })[0];
   }
+  function getMembership(id) {
+    return (draft.memberships || []).filter(function (p) { return p.id === id; })[0];
+  }
   function getLesson(modId, lesId) {
     var m = getModule(modId);
     if (!m) return null;
@@ -249,24 +280,40 @@
   }
 
   /* ─────────────────────────────────────────────
-     Render del editor de promociones
+     Render del editor de banners
+     (promociones y membresía comparten estructura)
      ───────────────────────────────────────────── */
   var openPromotions = {};
+  var openMemberships = {};
 
   function renderPromotions() {
     var host = $('#promotions-host');
+    if (!host) return;
     if (!draft.promotions || !draft.promotions.length) {
-      host.innerHTML = '<div class="inline-note">Aún no hay promociones. Pulsa <b>Agregar promoción</b> para empezar.</div>';
+      host.innerHTML = '<div class="inline-note">Aún no hay diapositivas. Pulsa <b>Agregar diapositiva de promoción</b> para empezar.</div>';
       return;
     }
     host.innerHTML = draft.promotions.map(function (p, i) {
-      return promotionHTML(p, i);
+      return bannerHTML(p, i, 'promo', openPromotions);
     }).join('');
   }
 
-  function promotionHTML(p, idx) {
-    var open = !!openPromotions[p.id];
-    var name = AD.pickLang(p.title) || '(promoción sin título)';
+  function renderMemberships() {
+    var host = $('#memberships-host');
+    if (!host) return;
+    if (!draft.memberships || !draft.memberships.length) {
+      host.innerHTML = '<div class="inline-note">Aún no hay diapositivas. Pulsa <b>Agregar diapositiva de membresía</b> para empezar.<br>' +
+        'Mientras no haya ninguna, la página mostrará el banner de membresía original.</div>';
+      return;
+    }
+    host.innerHTML = draft.memberships.map(function (p, i) {
+      return bannerHTML(p, i, 'memb', openMemberships);
+    }).join('');
+  }
+
+  function bannerHTML(p, idx, kind, openMap) {
+    var open = !!openMap[p.id];
+    var name = AD.pickLang(p.title) || '(diapositiva sin título)';
 
     return '' +
     '<div class="mod-editor' + (open ? ' open' : '') + '" data-id="' + esc(p.id) + '">' +
@@ -274,28 +321,28 @@
         '<span class="drag-num">' + (idx + 1) + '</span>' +
         '<span class="mod-name">' + esc(name) + '</span>' +
         '<span class="row-tools">' +
-          toolBtn('promo-up', p.id, '', 'bi-arrow-up', 'Subir') +
-          toolBtn('promo-down', p.id, '', 'bi-arrow-down', 'Bajar') +
-          toolBtn('promo-del', p.id, '', 'bi-trash', 'Eliminar', true) +
+          toolBtn(kind + '-up', p.id, '', 'bi-arrow-up', 'Subir') +
+          toolBtn(kind + '-down', p.id, '', 'bi-arrow-down', 'Bajar') +
+          toolBtn(kind + '-del', p.id, '', 'bi-trash', 'Eliminar', true) +
         '</span>' +
         '<i class="bi bi-chevron-down chev"></i>' +
       '</div>' +
       '<div class="mod-editor-body">' +
         fieldRow(
-          textField('promo', p.id, '', 'title.es', 'Título', 'ES', p.title.es),
-          textField('promo', p.id, '', 'title.en', 'Title', 'EN', p.title.en)
+          textField(kind, p.id, '', 'title.es', 'Título', 'ES', p.title.es),
+          textField(kind, p.id, '', 'title.en', 'Title', 'EN', p.title.en)
         ) +
         fieldRow(
-          areaField('promo', p.id, '', 'text.es', 'Texto', 'ES', p.text.es),
-          areaField('promo', p.id, '', 'text.en', 'Text', 'EN', p.text.en)
+          richField(kind, p.id, 'text.es', 'Texto', 'ES', p.text.es),
+          richField(kind, p.id, 'text.en', 'Text', 'EN', p.text.en)
         ) +
         fieldRow(
-          textField('promo', p.id, '', 'price', 'Precio (texto libre)', '', p.price),
-          textField('promo', p.id, '', 'image', 'Imagen (ej. assets/s01.png)', '', p.image)
+          textField(kind, p.id, '', 'price', 'Precio (texto libre)', '', p.price),
+          textField(kind, p.id, '', 'image', 'Imagen (ej. assets/s01.png)', '', p.image)
         ) +
         fieldRow(
-          textField('promo', p.id, '', 'dates.es', 'Fechas', 'ES', p.dates.es),
-          textField('promo', p.id, '', 'dates.en', 'Dates', 'EN', p.dates.en)
+          textField(kind, p.id, '', 'dates.es', 'Fechas', 'ES', p.dates.es),
+          textField(kind, p.id, '', 'dates.en', 'Dates', 'EN', p.dates.en)
         ) +
       '</div>' +
     '</div>';
@@ -434,6 +481,25 @@
       ' data-path="' + path + '">' + esc(val) + '</textarea></div>';
   }
 
+  /**
+   * Campo de texto enriquecido (para los banners): el contenido se ve
+   * tal como quedará en la página y se da formato con los botones,
+   * sin escribir HTML. El valor guardado es el HTML del editor.
+   */
+  function richField(scope, id, path, label, tag, val) {
+    return '<div class="field"><label>' + esc(label) + ' <span class="field-lang-tag">' + tag + '</span></label>' +
+      '<div class="rich-toolbar">' +
+        '<button type="button" class="rt-btn" data-cmd="bold" title="Negrita"><i class="bi bi-type-bold"></i></button>' +
+        '<button type="button" class="rt-btn" data-cmd="italic" title="Cursiva"><i class="bi bi-type-italic"></i></button>' +
+        '<button type="button" class="rt-btn" data-cmd="insertUnorderedList" title="Lista con viñetas"><i class="bi bi-list-ul"></i></button>' +
+        '<button type="button" class="rt-btn" data-cmd="removeFormat" title="Quitar formato"><i class="bi bi-eraser"></i></button>' +
+      '</div>' +
+      '<div class="rich-editor" contenteditable="true" data-scope="' + scope + '" data-id="' + esc(id) + '"' +
+      ' data-path="' + path + '" data-placeholder="Escribe aquí el texto de la diapositiva…">' + (val || '') + '</div>' +
+      '<div class="rich-hint">Selecciona una palabra o frase y pulsa un botón para darle formato. Enter crea una línea nueva.</div>' +
+    '</div>';
+  }
+
   /* ─────────────────────────────────────────────
      Eventos del editor (delegación)
      ───────────────────────────────────────────── */
@@ -500,27 +566,57 @@
   }
   function cssEsc(s) { return String(s).replace(/["\\]/g, '\\$&'); }
 
-  function updatePromoName(id) {
-    var p = getPromotion(id);
+  function updateBannerName(scope, id) {
+    var p = scope === 'memb' ? getMembership(id) : getPromotion(id);
     var node = $('.mod-editor[data-id="' + cssEsc(id) + '"] .mod-name');
-    if (p && node) node.textContent = AD.pickLang(p.title) || '(promoción sin título)';
+    if (p && node) node.textContent = AD.pickLang(p.title) || '(diapositiva sin título)';
   }
 
-  function bindPromotionsHost() {
-    var host = $('#promotions-host');
+  function bindBannerHost(hostSel, scope, getter, openMap) {
+    var host = $(hostSel);
+    if (!host) return;
 
     host.addEventListener('input', function (e) {
       var t = e.target;
-      if (!t.dataset || t.dataset.scope !== 'promo') return;
-      
-      var p = getPromotion(t.dataset.id);
-      if (p) setPath(p, t.dataset.path, t.value);
-      
-      updatePromoName(t.dataset.id);
+      if (!t.dataset || t.dataset.scope !== scope) return;
+
+      var p = getter(t.dataset.id);
+      if (p) setPath(p, t.dataset.path, t.isContentEditable ? t.innerHTML : t.value);
+
+      updateBannerName(scope, t.dataset.id);
       scheduleSave();
     });
 
+    // Los botones de formato no deben robar la selección del editor
+    host.addEventListener('mousedown', function (e) {
+      if (e.target.closest('.rt-btn')) e.preventDefault();
+    });
+
+    // Pegar siempre como texto plano (evita HTML sucio de Word, webs, etc.)
+    host.addEventListener('paste', function (e) {
+      var ed = e.target.closest ? e.target.closest('.rich-editor') : null;
+      if (!ed) return;
+      e.preventDefault();
+      var text = (e.clipboardData || window.clipboardData).getData('text/plain');
+      document.execCommand('insertText', false, text);
+    });
+
     host.addEventListener('click', function (e) {
+      // Botones de formato del editor enriquecido
+      var rtBtn = e.target.closest('.rt-btn');
+      if (rtBtn) {
+        e.preventDefault();
+        var editor = rtBtn.closest('.rich-toolbar').nextElementSibling;
+        if (editor && editor.classList.contains('rich-editor')) {
+          editor.focus();
+          try { document.execCommand('styleWithCSS', false, false); } catch (_e) {}
+          document.execCommand(rtBtn.getAttribute('data-cmd'), false, null);
+          var p = getter(editor.dataset.id);
+          if (p) setPath(p, editor.dataset.path, editor.innerHTML);
+          scheduleSave();
+        }
+        return;
+      }
       var actBtn = e.target.closest('[data-act]');
       if (actBtn) {
         e.preventDefault();
@@ -533,9 +629,14 @@
         var id = ed.getAttribute('data-id');
         var nowOpen = !ed.classList.contains('open');
         ed.classList.toggle('open', nowOpen);
-        if (nowOpen) openPromotions[id] = true; else delete openPromotions[id];
+        if (nowOpen) openMap[id] = true; else delete openMap[id];
       }
     });
+  }
+
+  function bindPromotionsHost() {
+    bindBannerHost('#promotions-host', 'promo', getPromotion, openPromotions);
+    bindBannerHost('#memberships-host', 'memb', getMembership, openMemberships);
   }
 
   /* ---- Acciones estructurales ---- */
@@ -544,13 +645,16 @@
       case 'mod-up': moveModule(id, -1); break;
       case 'mod-down': moveModule(id, 1); break;
       case 'mod-del': delModule(id); break;
-      case 'les-add': addLesson(id); break;       // aquí id = modId (data-mod en el botón)
+      case 'les-add': addLesson(mod || id); break; // el botón trae el módulo en data-mod
       case 'les-up': moveLesson(mod, id, -1); break;
       case 'les-down': moveLesson(mod, id, 1); break;
       case 'les-del': delLesson(mod, id); break;
       case 'promo-up': movePromotion(id, -1); break;
       case 'promo-down': movePromotion(id, 1); break;
       case 'promo-del': delPromotion(id); break;
+      case 'memb-up': moveMembership(id, -1); break;
+      case 'memb-down': moveMembership(id, 1); break;
+      case 'memb-del': delMembership(id); break;
     }
   }
 
@@ -647,6 +751,37 @@
     renderPromotions();
   }
 
+  function addMembership() {
+    var p = AD.normalizePromotion({ title: { es: 'Nueva diapositiva', en: '' }, image: 'assets/h15.png' });
+    if (!draft.memberships) draft.memberships = [];
+    draft.memberships.push(p);
+    openMemberships[p.id] = true;
+    save();
+    switchTab('promotions');
+    renderMemberships();
+    var node = $('.mod-editor[data-id="' + cssEsc(p.id) + '"]');
+    if (node) node.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function delMembership(id) {
+    var p = getMembership(id);
+    var name = (p && AD.pickLang(p.title)) || 'esta diapositiva';
+    if (!confirm('¿Eliminar la diapositiva "' + name + '" del banner de membresía?')) return;
+    draft.memberships = draft.memberships.filter(function (x) { return x.id !== id; });
+    delete openMemberships[id];
+    save();
+    renderMemberships();
+  }
+
+  function moveMembership(id, dir) {
+    var i = draft.memberships.findIndex(function (p) { return p.id === id; });
+    var j = i + dir;
+    if (i < 0 || j < 0 || j >= draft.memberships.length) return;
+    var tmp = draft.memberships[i]; draft.memberships[i] = draft.memberships[j]; draft.memberships[j] = tmp;
+    save();
+    renderMemberships();
+  }
+
   /* ─────────────────────────────────────────────
      Ajustes (intro + premium)
      ───────────────────────────────────────────── */
@@ -731,6 +866,84 @@
   }
   function getToken() { try { return localStorage.getItem(K.token) || ''; } catch (_e) { return ''; } }
 
+  /* ---- Configuración rápida (código compartible) ----
+     Permite que el soporte técnico genere un código con
+     usuario/repositorio/token y el cliente solo lo pegue. */
+
+  var CFG_PREFIX = 'ZNQG1.';
+
+  function b64ToUtf8(b64) {
+    var bin = atob(b64);
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+
+  function generateConfigCode(cfg, token) {
+    var payload = {
+      owner: cfg.owner, repo: cfg.repo,
+      branch: cfg.branch || 'main',
+      path: cfg.path || 'data/lecciones.json',
+      token: token || ''
+    };
+    return CFG_PREFIX + b64utf8(JSON.stringify(payload));
+  }
+
+  /**
+   * Aplica un código de configuración. Devuelve { ok, error }.
+   * Acepta el código con o sin espacios/saltos de línea alrededor.
+   */
+  function applyConfigCode(raw) {
+    var str = String(raw || '').trim().replace(/\s+/g, '');
+    if (!str) return { ok: false, error: 'El código está vacío.' };
+    if (str.indexOf(CFG_PREFIX) !== 0) {
+      return { ok: false, error: 'El código no es válido (debe empezar con ' + CFG_PREFIX.slice(0, -1) + ').' };
+    }
+    var payload;
+    try {
+      payload = JSON.parse(b64ToUtf8(str.slice(CFG_PREFIX.length)));
+    } catch (_e) {
+      return { ok: false, error: 'No se pudo leer el código. Revisa que esté completo.' };
+    }
+    if (!payload.owner || !payload.repo || !payload.token) {
+      return { ok: false, error: 'Al código le faltan datos (usuario, repositorio o token).' };
+    }
+    var c = {
+      owner: payload.owner,
+      repo: payload.repo,
+      branch: payload.branch || 'main',
+      path: payload.path || 'data/lecciones.json'
+    };
+    try {
+      localStorage.setItem(K.gh, JSON.stringify(c));
+      localStorage.setItem(K.token, payload.token);
+    } catch (_e) {
+      return { ok: false, error: 'No se pudo guardar en este navegador.' };
+    }
+    // Reflejar en el formulario si ya está en pantalla
+    if ($('#gh-owner')) {
+      $('#gh-owner').value = c.owner;
+      $('#gh-repo').value = c.repo;
+      $('#gh-branch').value = c.branch;
+      $('#gh-path').value = c.path;
+      $('#gh-token').value = payload.token;
+    }
+    return { ok: true };
+  }
+
+  /**
+   * Si la página se abrió con un enlace de configuración
+   * (admin.html#cfg=ZNQG1....), instala la conexión de inmediato.
+   */
+  function installConfigFromUrl() {
+    var h = window.location.hash || '';
+    if (h.indexOf('#cfg=') !== 0) return false;
+    var res = applyConfigCode(decodeURIComponent(h.slice(5)));
+    // Limpiar la URL para no dejar el token a la vista
+    try { history.replaceState(null, '', window.location.pathname); } catch (_e) {}
+    return res.ok;
+  }
+
   function bindConnect() {
     var cfg = getGhConfig();
     $('#gh-owner').value = cfg.owner;
@@ -755,6 +968,54 @@
 
     $('#btn-test-conn').addEventListener('click', testConnection);
     $('#btn-change-pw').addEventListener('click', changePassword);
+
+    /* ---- Configuración rápida ---- */
+    var cfgMsg = $('#cfg-msg');
+
+    $('#btn-apply-cfg').addEventListener('click', function () {
+      var res = applyConfigCode($('#cfg-code').value);
+      if (res.ok) {
+        cfgMsg.className = 'code-msg ok';
+        cfgMsg.textContent = '✓ Configuración activada. Ya puedes usar el botón Publicar.';
+        $('#cfg-code').value = '';
+        toast('Configuración activada.', 'ok');
+        testConnection();
+      } else {
+        cfgMsg.className = 'code-msg error';
+        cfgMsg.textContent = '✗ ' + res.error;
+      }
+    });
+
+    $('#btn-gen-cfg').addEventListener('click', function () {
+      var c = {
+        owner: $('#gh-owner').value.trim(),
+        repo: $('#gh-repo').value.trim(),
+        branch: $('#gh-branch').value.trim() || 'main',
+        path: $('#gh-path').value.trim() || 'data/lecciones.json'
+      };
+      var token = $('#gh-token').value.trim();
+      if (!c.owner || !c.repo || !token) {
+        cfgMsg.className = 'code-msg error';
+        cfgMsg.textContent = '✗ Para generar el código, llena usuario, repositorio y token (sección de abajo).';
+        return;
+      }
+      var code = generateConfigCode(c, token);
+      $('#cfg-code').value = code;
+      var done = function () {
+        cfgMsg.className = 'code-msg ok';
+        cfgMsg.textContent = '✓ Código generado y copiado. Compártelo con la persona que administrará el sitio ' +
+          '(por un medio privado: el código contiene el token).';
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(done, function () {
+          cfgMsg.className = 'code-msg ok';
+          cfgMsg.textContent = '✓ Código generado (cópialo del recuadro de arriba).';
+        });
+      } else {
+        cfgMsg.className = 'code-msg ok';
+        cfgMsg.textContent = '✓ Código generado (cópialo del recuadro de arriba).';
+      }
+    });
   }
 
   function ghHeaders(token) {
@@ -856,6 +1117,18 @@
       ));
     }
 
+    function cleanBanner(p, i) {
+      return {
+        id: p.id,
+        title: lobj(p.title),
+        text: lobj(p.text),
+        price: p.price || '',
+        dates: lobj(p.dates),
+        image: p.image || '',
+        order: i
+      };
+    }
+
     var out = {
       version: 1,
       updatedAt: new Date().toISOString(),
@@ -869,6 +1142,8 @@
           hint: lobj(prem.hint)
         }
       },
+      promotions: (d.promotions || []).map(cleanBanner),
+      memberships: (d.memberships || []).map(cleanBanner),
       modules: []
     };
 
@@ -1008,6 +1283,8 @@
           save();
           loadSettingsIntoForm();
           renderModules();
+          renderPromotions();
+          renderMemberships();
           switchTab('content');
           toast('Contenido importado.', 'ok');
         });
@@ -1034,21 +1311,22 @@
     $('#help-host').innerHTML =
       '<h2><i class="bi bi-question-circle"></i> Cómo usar el panel</h2>' +
       '<div class="card-hint" style="font-size:0.9rem;line-height:1.8;">' +
-        '<p style="margin-bottom:14px;"><b>1. Edita el contenido.</b> En la pestaña <b>Contenido</b> creas módulos y, dentro de cada uno, lecciones (YouTube, Drive, PDF o enlace). Escribe al menos el título en español; el inglés es opcional.</p>' +
-        '<p style="margin-bottom:14px;"><b>2. Contenido para alumnos.</b> Marca un módulo como <b>Alumnos</b> para protegerlo. En <b>Ajustes</b> activa "Contenido para alumnos" y define el <b>código</b> que compartirás con ellos. Los enlaces protegidos se guardan cifrados: sin el código, nadie puede abrirlos.</p>' +
-        '<p style="margin-bottom:14px;"><b>3. Revisa.</b> Pulsa <b>Vista previa</b> para ver el aula tal como quedará, sin publicar todavía.</p>' +
-        '<p style="margin-bottom:14px;"><b>4. Publica.</b> Pulsa <b>Publicar</b>. Los cambios aparecen en el sitio en ~1 minuto. (También puedes <b>Exportar</b> un respaldo del contenido.)</p>' +
+        '<p style="margin-bottom:14px;"><b>1. Conecta el panel (solo la primera vez).</b> Pide a tu soporte técnico tu <b>código de configuración</b>, ve a la pestaña <b>Conexión</b>, pégalo en <b>Configuración rápida</b> y pulsa <b>Activar</b>. Listo: no necesitas cuentas ni pasos técnicos. (Si te compartieron un <b>enlace</b> de configuración, basta con abrirlo.)</p>' +
+        '<p style="margin-bottom:14px;"><b>2. Edita el contenido del aula.</b> En la pestaña <b>Contenido</b> creas módulos y, dentro de cada uno, lecciones (YouTube, Drive, PDF o enlace). Escribe al menos el título en español; el inglés es opcional.</p>' +
+        '<p style="margin-bottom:14px;"><b>3. Edita los banners de la página.</b> En la pestaña <b>Banners</b> puedes cambiar, agregar o borrar las diapositivas del banner de <b>promociones</b> (el que se abre al entrar al sitio) y del banner de <b>membresía</b>.</p>' +
+        '<p style="margin-bottom:14px;"><b>4. Contenido para alumnos.</b> Marca un módulo como <b>Alumnos</b> para protegerlo. En <b>Ajustes</b> activa "Contenido para alumnos" y define el <b>código</b> que compartirás con ellos. Los enlaces protegidos se guardan cifrados: sin el código, nadie puede abrirlos.</p>' +
+        '<p style="margin-bottom:14px;"><b>5. Revisa y publica.</b> Pulsa <b>Vista previa</b> para revisar sin publicar. Cuando estés conforme, pulsa <b>Publicar</b>: los cambios aparecen en el sitio en ~1 minuto. (También puedes <b>Exportar</b> un respaldo.)</p>' +
       '</div>' +
-      '<h2 style="margin-top:24px;"><i class="bi bi-github"></i> Conectar con GitHub (una sola vez)</h2>' +
+      '<h2 style="margin-top:24px;"><i class="bi bi-github"></i> Para soporte técnico (avanzado)</h2>' +
       '<div class="card-hint" style="font-size:0.9rem;line-height:1.8;">' +
-        '<p style="margin-bottom:10px;">Para que el botón <b>Publicar</b> funcione, necesitas un <b>token</b> de GitHub:</p>' +
+        '<p style="margin-bottom:10px;">El botón <b>Publicar</b> guarda los cambios en el repositorio de GitHub Pages mediante un <b>token fine-grained</b>:</p>' +
         '<ol style="list-style:decimal;padding-left:22px;margin-bottom:14px;">' +
-          '<li>Entra a <a class="muted-link" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Settings → Developer settings → Fine-grained tokens</a>.</li>' +
-          '<li>En <b>Repository access</b> elige <b>Only select repositories</b> y selecciona tu repositorio del sitio.</li>' +
-          '<li>En <b>Permissions › Repository permissions › Contents</b>, elige <b>Read and write</b>.</li>' +
-          '<li>Genera el token, cópialo y pégalo en la pestaña <b>Conexión</b>, junto con tu usuario y el nombre del repositorio. Pulsa <b>Guardar</b> y luego <b>Probar conexión</b>.</li>' +
+          '<li>Crea el token en <a class="muted-link" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Settings → Developer settings → Fine-grained tokens</a>: acceso solo al repositorio del sitio y permiso <b>Contents: Read and write</b>.</li>' +
+          '<li>En la pestaña <b>Conexión</b>, llena usuario, repositorio, rama y token; pulsa <b>Guardar</b> y <b>Probar conexión</b>.</li>' +
+          '<li>Pulsa <b>Generar código para compartir</b> y envía ese código a la persona que administrará el sitio por un medio privado. Ella solo tendrá que pegarlo y pulsar <b>Activar</b>.</li>' +
+          '<li>Alternativa: compártele el enlace <code>admin.html#cfg=CÓDIGO</code>; al abrirlo, la configuración se instala sola.</li>' +
         '</ol>' +
-        '<div class="inline-note warn">Por seguridad, usa este panel solo en tu computadora de confianza. El token, el código de alumnos y la contraseña se guardan únicamente en este navegador, nunca se suben al sitio.</div>' +
+        '<div class="inline-note warn">El código de configuración contiene el token: compártelo solo por un medio privado y con personas de confianza. El token, el código de alumnos y la contraseña se guardan únicamente en el navegador de quien administra, nunca se suben al sitio.</div>' +
       '</div>';
   }
 

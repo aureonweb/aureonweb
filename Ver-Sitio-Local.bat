@@ -1,5 +1,5 @@
 @echo off
-title Vida ZhiNeng QiGong - Servidor local
+title AUREON - Servidor local
 cd /d "%~dp0"
 
 where node >nul 2>nul

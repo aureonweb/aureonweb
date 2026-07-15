@@ -84,8 +84,8 @@
       } catch (e) {}
     }
 
-    // Componentes reutilizables (header scroll, menú móvil, smooth scroll)
-    ['initHeader', 'initMobileMenu', 'initSmoothScroll'].forEach(function (fn) {
+    // Componentes reutilizables (header scroll, smooth scroll)
+    ['initHeader', 'initSmoothScroll'].forEach(function (fn) {
       if (window.Components && typeof Components[fn] === 'function') {
         try { Components[fn](); } catch (e) {}
       }
@@ -487,6 +487,7 @@
           '</div>' +
           '<div class="code-msg" id="code-msg"></div>' +
           '<button class="btn filled" id="code-submit" style="width:100%"></button>' +
+          '<button class="btn ghost small" id="code-wa" style="width:100%;margin-top:10px;"></button>' +
         '</div>' +
       '</div>';
     document.body.appendChild(codeOverlay);
@@ -508,6 +509,16 @@
     submit.addEventListener('click', submitCode);
     input.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') submitCode();
+    });
+
+    // Pedir el código por WhatsApp
+    codeOverlay.querySelector('#code-wa').addEventListener('click', function () {
+      var msg = T('wa.code.msg', 'Hola 👋 Soy alumno(a) inscrito(a) y necesito mi código de acceso al Aula Virtual.');
+      if (window.Components && Components.openWhatsApp) {
+        Components.openWhatsApp(msg);
+      } else {
+        window.open('https://wa.me/5215541940880?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+      }
     });
   }
 
@@ -553,6 +564,8 @@
     codeOverlay.querySelector('#code-msg').textContent = '';
     codeOverlay.querySelector('#code-msg').className = 'code-msg';
     codeOverlay.querySelector('#code-submit').textContent = T('aula.code.submit', 'Entrar');
+    codeOverlay.querySelector('#code-wa').innerHTML =
+      '<i class="bi bi-whatsapp"></i> ' + esc(T('aula.code.wa', 'Pedir mi código por WhatsApp'));
     var input = codeOverlay.querySelector('#code-input');
     input.value = '';
     openOverlay(codeOverlay);

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   i18n.js — Internationalization System for Vida ZhìNéng QìGōng
+   i18n.js — Internationalization System for AUREON
    Supports: Español (es) | English (en)
    Usage:
      - Add data-i18n="key" to any element for innerHTML translation
@@ -36,115 +36,158 @@
       'hero.title.indira-y-hui':
         'CAMINO HACIA LA <span class=\'accent\'>SABIDURÍA</span>',
       'hero.subtitle':
-        'Descubre la práctica milenaria que ha transformado la vida de millones de personas en el mundo.',
+        'Una práctica milenaria, viva y al alcance de todos, que ha acompañado la transformación de millones de personas en el mundo.',
       'hero.cta1':      'Conoce Más',
       'hero.cta2':      'Contáctanos',
 
       /* — What is Zhineng Qigong — */
       'qigong.title':   '¿Qué es ZhìNéng QìGōng?',
       'qigong.text1':
-        'ZhìNéng QìGōng es la cúspide del desarrollo del QìGōng. Es el legado del Dr. Pang He Ming, médico alópata y tradicional chino, heredero de diecinueve linajes de QìGōng tradicional y fundador del Centro Huaxia de ZhìNéng QìGōng, conocido como el Hospital más grande del mundo que trabajaba sin medicamentos, el cual compartió este tesoro con más de 3.8 millones de personas y actualmente se enseña en muchos países del mundo.',
+        'ZhìNéng QìGōng representa la etapa más evolucionada del QìGōng. Es el legado del Dr. Pang He Ming —médico formado en medicina occidental y tradicional china, y heredero de diecinueve linajes de QìGōng tradicional—, fundador del Proyecto Aureon, reconocido como el hospital sin medicamentos más grande del mundo. Este tesoro ha llegado a más de 3.8 millones de personas y hoy se enseña en numerosos países.',
       'qigong.text2':
-        'ZhìNéng QìGōng es toda una cultura, cuya práctica se realiza con una actitud científica, promoviendo los cambios que buscamos obtener a través de toda una forma de vida que implica una serie de ejercicios físicos y mentales, así como los hábitos físicos, emocionales y mentales más evolucionados que puede cultivar el ser humano.',
+        'Más que una técnica, es toda una cultura: se practica con una actitud científica y promueve los cambios que buscamos a través de una forma de vida completa, que integra ejercicios físicos y mentales junto con los hábitos más elevados que el ser humano puede cultivar en su cuerpo, sus emociones y su mente.',
       'qigong.text3':
-        'ZhìNéng QìGōng puede ser practicado por todo tipo de personas, no tiene que ver con corrientes políticas ni religiosas, no es un deporte ni un arte marcial.',
+        'Cualquier persona puede practicarlo: no pertenece a ninguna corriente política ni religiosa, y no es un deporte ni un arte marcial. Basta con poder seguir instrucciones sencillas.',
       'qigong.text4':
-        'Se han realizado investigaciones científicas formales en diferentes áreas, como la medicina, la agricultura, la industria, la educación, en ciencias forestales y con animales.',
+        'Su alcance ha sido objeto de investigaciones científicas formales en campos tan diversos como la medicina, la agricultura, la industria, la educación, las ciencias forestales y el trabajo con animales.',
+
+      /* — About Us (Quiénes Somos) — */
+      'about.title':    'Quiénes Somos',
+      'about.subtitle': 'AUREON',
+      'about.text1':
+        '<strong>Indira</strong> es instructora certificada de ZhìNéng QìGōng, con más de quince años de práctica y formación directa con maestros del linaje del Proyecto Aureon. Ha acompañado a cientos de alumnos en México y Latinoamérica con una enseñanza cercana y amorosa, y al mismo tiempo rigurosa y fiel al sistema original.',
+      'about.text2':
+        '<strong>Hui</strong> es maestro de ZhìNéng QìGōng con décadas de experiencia en la enseñanza del sistema del Dr. Pang He Ming. Imparte cursos internacionales en línea y presenciales, y es reconocido por la profundidad y la claridad con que transmite tanto la práctica como la teoría del campo de Qì.',
+      'about.text3':
+        'Juntos creamos <strong>AUREON</strong> con una misión sencilla: que esta práctica llegue a cualquier persona —sin importar su edad, su condición física o sus creencias— como un camino real de salud, serenidad y despertar del potencial interior.',
+
+      /* — Activities (Actividades) — */
+      'activities.title':    'Actividades',
+      'activities.subtitle': 'Formas de practicar con nosotros',
+      'activities.1.title':  'Clases semanales en vivo',
+      'activities.1.text':
+        'Sesiones en línea para practicar en grupo desde casa, con guía en tiempo real y espacio para resolver tus dudas.',
+      'activities.2.title':  'Cursos en línea',
+      'activities.2.text':
+        'Programas temáticos de varias semanas, como «El Anhelo del Espacio», que combinan teoría, ejercicios de flujo y meditación.',
+      'activities.3.title':  'Sesiones de sanación',
+      'activities.3.text':
+        'Encuentros dedicados al trabajo con el campo de Qì para acompañar procesos de recuperación de la salud.',
+      'activities.4.title':  'Talleres y retiros',
+      'activities.4.text':
+        'Experiencias intensivas, en línea y presenciales, para profundizar en la práctica y convivir con la comunidad.',
+      'activities.5.title':  'Formación de profesores',
+      'activities.5.text':
+        'Programas de certificación en Ba Duan Jin y en Cuerpo y Mente, para quienes desean compartir la práctica.',
+      'activities.6.title':  'Práctica de Luna Llena',
+      'activities.6.text':
+        'Práctica especial, abierta y gratuita, que realizamos en cada luna llena junto a toda la comunidad.',
 
       /* — Stages of Benefits — */
       'stages.title':    'Etapas de los Beneficios',
-      'stages.subtitle': 'Vida ZhìNéng QìGōng',
+      'stages.subtitle': 'AUREON',
       'stages.1.title':  'Recuperar la Salud',
       'stages.1.text':
-        'Beneficios para las personas que necesitan recuperar la salud',
+        'El primer paso: acompañar a quienes atraviesan una enfermedad o un desequilibrio y necesitan recuperar su bienestar',
       'stages.2.title':  'Mantener y Elevar la Salud',
       'stages.2.text':
-        'Para las personas que desean mantener su salud e incluso elevarla a un nivel superior a la media',
+        'Para quienes ya se sienten bien y desean conservar su salud, e incluso llevarla a un nivel superior al promedio',
       'stages.3.title':  'Desarrollar el Máximo Potencial',
       'stages.3.text':
-        'Para las personas que desean desarrollar todo su potencial físico, mental y emocional para lograr el más alto nivel que puede alcanzar el ser humano',
+        'Para quienes buscan desplegar todo su potencial físico, mental y emocional, hacia el nivel más alto que puede alcanzar el ser humano',
 
       /* — Benefits — */
       'benefits.title':  'Beneficios de la Práctica',
-      'benefits.1':      'Fortalece el sistema inmunológico',
-      'benefits.2':      'Incrementa la concentración y la capacidad de análisis',
-      'benefits.3':      'Mejora el manejo de las emociones',
-      'benefits.4':      'Mejora la circulación',
-      'benefits.5':      'Mejora la digestión',
-      'benefits.6':      'Mejora la sensibilidad',
-      'benefits.7':      'La vista, el oído, el olfato y todos los sentidos se mejoran',
-      'benefits.8':      'Ayuda a manejar el estrés',
-      'benefits.9':      'Se incrementa la flexibilidad',
-      'benefits.10':     'Despierta la sabiduría del cuerpo, emociones y mente',
-      'benefits.11':     'Tiene el potencial de eliminar todo tipo de enfermedades',
-      'benefits.12':     'Ayuda a vivir en paz y armonía',
-      'benefits.13':     'Puede eliminar trastornos del sueño',
-      'benefits.14':     'Ayuda a despertar la alegría',
-      'benefits.15':     'Mejora la autoestima',
+      'benefits.1':      'Refuerza el sistema inmunológico',
+      'benefits.2':      'Aumenta la concentración y la claridad mental',
+      'benefits.3':      'Favorece el equilibrio emocional',
+      'benefits.4':      'Estimula la circulación',
+      'benefits.5':      'Favorece una buena digestión',
+      'benefits.6':      'Afina la sensibilidad y la percepción',
+      'benefits.7':      'Agudiza la vista, el oído y todos los sentidos',
+      'benefits.8':      'Reduce y ayuda a gestionar el estrés',
+      'benefits.9':      'Aumenta la flexibilidad del cuerpo',
+      'benefits.10':     'Despierta la sabiduría del cuerpo, las emociones y la mente',
+      'benefits.11':     'Tiene el potencial de revertir todo tipo de padecimientos',
+      'benefits.12':     'Invita a vivir en paz y armonía',
+      'benefits.13':     'Ayuda a recuperar un sueño reparador',
+      'benefits.14':     'Reaviva la alegría de vivir',
+      'benefits.15':     'Fortalece la autoestima',
 
       /* — FAQ — */
       'faq.title':       'Preguntas Frecuentes',
 
-      'faq.1.q': '¿Qué es ZhìNéng QìGōng?',
+      'faq.1.q': '¿Qué es exactamente el ZhìNéng QìGōng?',
       'faq.1.a':
-        'Es la cúspide del desarrollo del QìGōng. Es toda una cultura cuya práctica se realiza con una actitud científica, promoviendo los cambios que buscamos obtener a través de una forma de vida completa que implica una serie de ejercicios físicos y mentales, así como los hábitos físicos, emocionales y mentales más evolucionados que puede cultivar el ser humano.',
+        'Es la forma más evolucionada del QìGōng: toda una cultura que se practica con actitud científica. Los cambios que buscamos no dependen de un ejercicio aislado, sino de una forma de vida completa que integra movimiento, trabajo mental y los hábitos físicos, emocionales y mentales más elevados que una persona puede cultivar.',
 
-      'faq.2.q': '¿De dónde viene?',
+      'faq.2.q': '¿Cuál es su origen?',
       'faq.2.a':
-        'Es el legado del Dr. Pang He Ming, doctor en medicina alópata y tradicional china, heredero de diecinueve linajes de QìGōng tradicional y fundador del Centro Huaxia, conocido como el hospital más grande del mundo que trabajaba sin medicamentos, compartiendo este tesoro con más de 3.8 millones de personas.',
+        'Nace del trabajo del Dr. Pang He Ming, médico en medicina occidental y tradicional china, heredero de diecinueve linajes de QìGōng tradicional. Él fundó el Proyecto Aureon, conocido como el hospital sin medicamentos más grande del mundo, donde este método llegó a más de 3.8 millones de personas.',
 
-      'faq.3.q': '¿Quién puede practicarlo?',
+      'faq.3.q': '¿Necesito experiencia previa o alguna condición especial?',
       'faq.3.a':
-        'Puede ser practicado por todo tipo de personas, no tiene que ver con corrientes políticas ni religiosas, no es un deporte ni un arte marcial. Cualquier persona que pueda seguir instrucciones sencillas puede practicarlo.',
+        'No. Cualquier persona capaz de seguir instrucciones sencillas puede practicarlo, a cualquier edad y en cualquier condición física. No está ligado a corrientes políticas ni religiosas, y no es un deporte ni un arte marcial.',
 
-      'faq.4.q': '¿Cuál es su efectividad?',
+      'faq.4.q': '¿Qué resultados se han documentado?',
       'faq.4.a':
-        'En el Centro Huaxia se midió una efectividad del 95% en lograr disminuir o recuperarse completamente de más de 180 padecimientos, tras 24 días de práctica de 8 horas diarias con el primer nivel PengQìGuanDingFa.',
+        'En el Proyecto Aureon se registró un 95% de efectividad en la mejoría o recuperación completa de más de 180 padecimientos, tras 24 días de práctica de 8 horas diarias con el primer nivel, PengQìGuanDingFa.',
 
-      'faq.5.q': '¿Cuántos niveles existen?',
+      'faq.5.q': '¿Cómo se organizan los niveles de práctica?',
       'faq.5.a':
-        'El Maestro Pang estructuró el ZhìNéng QìGōng en 6 niveles. Actualmente, sólo se han abierto los tres primeros: PengQìGuanDingFa, XingShenZhuang y WuYuanZhuang. Cada nivel trabaja con aspectos cada vez más profundos del cuerpo, la mente y las emociones.',
+        'El Maestro Pang estructuró el sistema en 6 niveles, de los cuales se han abierto los tres primeros: PengQìGuanDingFa, XingShenZhuang y WuYuanZhuang. Cada nivel trabaja aspectos cada vez más profundos del cuerpo, la mente y las emociones.',
 
-      'faq.6.q': '¿Puedo mandarle Qì a otra persona?',
+      'faq.6.q': '¿Es posible enviarle Qì a otra persona?',
       'faq.6.a':
-        'Sí, existe un método llamado Fa Qì para mandar Qì a personas, animales, plantas u objetos. Es un trabajo generoso que eleva el nivel del practicante, aunque cada persona debe hacer su propio trabajo de transformación.',
+        'Sí. Existe un método llamado Fa Qì para enviar Qì a personas, animales, plantas u objetos. Es un trabajo generoso que además eleva el nivel del practicante, aunque cada persona debe realizar su propio proceso de transformación.',
 
       /* — Testimonials — */
       'testimonials.title': 'Testimonios',
 
       'testimonial.1.text':
-        'Me sentía con muchas ganas de trabajar, con muchas ganas de superarme a mí mismo cada día y de entrenar al máximo. Yo me sentía muy satisfecho con mi trabajo y fue gracias a que estaba abierto a aprender nuevas cosas como es el ZhìNéng QìGōng.',
-      'testimonial.1.author':   'Diego Rivera',
-      'testimonial.1.location': '13 Años, Veracruz',
+        'En el curso encontré que las técnicas de sanación no se contraponen a mis creencias e ideología, y logré dejar de sentir dolor. (Un dolor al que ya estoy acostumbrada después de años de sentirlo). Para mí fue abrir una puerta para un cambio de vida. Recomiendo mucho darse la oportunidad. ¡La maestra Indira es extraordinaria!',
+      'testimonial.1.author':   'Rebeca Cárdenas',
+      'testimonial.1.location': '59 años',
 
       'testimonial.2.text':
-        'Siento como si hubiera desbloqueado un archivo de antigua sabiduría, y me sorprende el impulso que tengo por aprender y hacer cosas nuevas.',
-      'testimonial.2.author':   'Gaby Álvarez',
-      'testimonial.2.location': 'Colima, México',
-
-      'testimonial.3.text':
-        'A veces siento que debo cuidar delicadamente como si fuera un capullo, una semilla abriéndose, un recién nacido, apenas un tallito de Qi que cultivo en mi práctica, que navega en el Dan Tian ¡con tan hermosa sensación!',
-      'testimonial.3.author':   'Magie Slim',
-      'testimonial.3.location': 'Puebla, México',
+        'Más allá del asombro, lo que descubrí fue la certeza de que cuando la mente se aquieta, el universo coopera. Que el poder no está en controlar, sino en fluir con la conciencia despierta. Todo ello fue posible gracias a mi querida instructora Indira, cuya sabiduría y guía amorosa hicieron de esta experiencia un verdadero despertar.',
+      'testimonial.2.author':   'Angélica Alamillo',
+      'testimonial.2.location': '61 años',
 
       /* — Contact — */
       'contact.title':    'Contacto',
       'contact.subtitle':
-        '¿Tienes preguntas? Escríbenos y con gusto te atendemos.',
+        '¿Tienes dudas o quieres inscribirte? Escríbenos: tu mensaje nos llega directo por WhatsApp.',
       'contact.name':              'Nombre',
       'contact.name.placeholder':  'Tu nombre',
-      'contact.email':             'Correo Electrónico',
-      'contact.email.placeholder': 'Para poder responderte',
+      'contact.email':             'Correo Electrónico (opcional)',
+      'contact.email.placeholder': 'Por si prefieres respuesta por correo',
       'contact.subject':             'Asunto',
       'contact.subject.placeholder': '¿De qué quieres hablar?',
       'contact.message':             'Mensaje',
       'contact.message.placeholder': 'Escribe tu mensaje aquí...',
-      'contact.submit':  'Enviar Mensaje',
-      'contact.success': '¡Mensaje enviado con éxito!',
-      'contact.error':   'Error al enviar. Intenta de nuevo.',
+      'contact.submit':  'Enviar por WhatsApp',
+      'contact.success': '¡Listo! Se abrió WhatsApp con tu mensaje.',
+      'contact.error':   'No se pudo abrir WhatsApp. Intenta de nuevo.',
+
+      /* — WhatsApp messages — */
+      'wa.course.msg':
+        'Hola 👋 Me interesa el curso «{title}» y me gustaría recibir más información.',
+      'wa.generic.msg':
+        'Hola 👋 Me gustaría recibir más información sobre sus cursos y actividades.',
+      'wa.membership.msg':
+        'Hola 👋 Me interesa la Membresía Qi y me gustaría recibir más información.',
+      'wa.contact.intro':  'Hola, soy',
+      'wa.contact.subject': 'Asunto',
+      'wa.contact.email':   'Correo',
+
+      /* — Promo banner buttons — */
+      'promo.more':    'Más información',
+      'promo.next':    'Siguiente',
+      'promo.contact': 'Contactar por WhatsApp',
 
       /* — Footer — */
-      'footer.copy':    '© 2025 Vida ZhìNéng QìGōng. Todos los derechos reservados.',
+      'footer.copy':    '© 2025 AUREON. Todos los derechos reservados.',
 
       /* — Courses — */
       'courses.title':    'Cursos y Sesiones',
@@ -160,7 +203,7 @@
       /* — Aula Virtual — */
       'nav.aula':            'Aula Virtual',
       'courses.aulaCta':     'Entrar al Aula Virtual',
-      'aula.kicker':         'Vida ZhìNéng QìGōng',
+      'aula.kicker':         'AUREON',
       'aula.title':          'Aula Virtual',
       'aula.loading':        'Cargando lecciones…',
       'aula.empty':          'Aún no hay lecciones publicadas.',
@@ -183,6 +226,9 @@
       'aula.code.checking':  'Verificando…',
       'aula.code.ok':        '¡Acceso concedido!',
       'aula.code.wrong':     'Código incorrecto. Inténtalo de nuevo.',
+      'aula.code.wa':        'Pedir mi código por WhatsApp',
+      'wa.code.msg':
+        'Hola 👋 Soy alumno(a) inscrito(a) y necesito mi código de acceso al Aula Virtual.',
       'aula.open.desc':      'Este contenido se abre en una pestaña nueva.',
       'aula.open.cta':       'Abrir contenido',
 
@@ -211,115 +257,158 @@
       'hero.title.indira-y-hui':
         'PATH TO <span class=\'accent\'>WISDOM</span>',
       'hero.subtitle':
-        'Discover the ancient practice that has transformed the lives of millions around the world.',
+        'A living, ancient practice within everyone\'s reach — one that has accompanied the transformation of millions of people around the world.',
       'hero.cta1':      'Learn More',
       'hero.cta2':      'Contact Us',
 
       /* — What is Zhineng Qigong — */
       'qigong.title':   'What is ZhìNéng QìGōng?',
       'qigong.text1':
-        'ZhìNéng QìGōng is the pinnacle of QìGōng development. It is the legacy of Dr. Pang He Ming, a Western and Traditional Chinese Medicine doctor, heir to nineteen lineages of traditional QìGōng, and founder of the Huaxia Center for ZhìNéng QìGōng — known as the world\'s largest hospital that operated without medication — which shared this treasure with over 3.8 million people and is currently taught in many countries around the world.',
+        'ZhìNéng QìGōng represents the most evolved stage of QìGōng. It is the legacy of Dr. Pang He Ming — a physician trained in both Western and Traditional Chinese Medicine, and heir to nineteen lineages of traditional QìGōng — founder of the Aureon Project, recognized as the world\'s largest medicine-free hospital. This treasure has reached more than 3.8 million people and is now taught in many countries.',
       'qigong.text2':
-        'ZhìNéng QìGōng is an entire culture whose practice is carried out with a scientific attitude, promoting the changes we seek through a complete way of life involving a series of physical and mental exercises, as well as the most evolved physical, emotional, and mental habits that a human being can cultivate.',
+        'More than a technique, it is an entire culture: it is practiced with a scientific attitude, and the changes we seek come through a complete way of life that combines physical and mental exercises with the most refined habits a human being can cultivate in body, emotions, and mind.',
       'qigong.text3':
-        'ZhìNéng QìGōng can be practiced by all types of people; it has nothing to do with political or religious movements, and it is neither a sport nor a martial art.',
+        'Anyone can practice it: it belongs to no political or religious movement, and it is neither a sport nor a martial art. Being able to follow simple instructions is enough.',
       'qigong.text4':
-        'Formal scientific research has been conducted in various areas, including medicine, agriculture, industry, education, forestry sciences, and with animals.',
+        'Its scope has been the subject of formal scientific research in fields as diverse as medicine, agriculture, industry, education, forestry sciences, and work with animals.',
+
+      /* — About Us (Quiénes Somos) — */
+      'about.title':    'About Us',
+      'about.subtitle': 'AUREON',
+      'about.text1':
+        '<strong>Indira</strong> is a certified ZhìNéng QìGōng instructor with more than fifteen years of practice and direct training with masters of the Aureon Project lineage. She has guided hundreds of students across Mexico and Latin America with a warm, caring style of teaching that remains rigorous and faithful to the original system.',
+      'about.text2':
+        '<strong>Hui</strong> is a ZhìNéng QìGōng master with decades of experience teaching Dr. Pang He Ming\'s system. He leads international courses, both online and in person, and is renowned for the depth and clarity with which he transmits both the practice and the theory of the Qì field.',
+      'about.text3':
+        'Together we created <strong>AUREON</strong> with a simple mission: to bring this practice to anyone — regardless of age, physical condition, or beliefs — as a real path toward health, serenity, and the awakening of inner potential.',
+
+      /* — Activities (Actividades) — */
+      'activities.title':    'Activities',
+      'activities.subtitle': 'Ways to practice with us',
+      'activities.1.title':  'Weekly live classes',
+      'activities.1.text':
+        'Online sessions to practice as a group from home, with real-time guidance and space to ask your questions.',
+      'activities.2.title':  'Online courses',
+      'activities.2.text':
+        'Multi-week thematic programs, such as "The Longing of Space," combining theory, flow exercises, and meditation.',
+      'activities.3.title':  'Healing sessions',
+      'activities.3.text':
+        'Gatherings dedicated to working with the Qì field to support health-recovery processes.',
+      'activities.4.title':  'Workshops and retreats',
+      'activities.4.text':
+        'Intensive experiences, online and in person, to deepen the practice and share time with the community.',
+      'activities.5.title':  'Teacher training',
+      'activities.5.text':
+        'Certification programs in Ba Duan Jin and Body & Mind, for those who wish to share the practice.',
+      'activities.6.title':  'Full Moon Practice',
+      'activities.6.text':
+        'A special practice, open and free of charge, held on every full moon together with the whole community.',
 
       /* — Stages of Benefits — */
       'stages.title':    'Stages of Benefits',
-      'stages.subtitle': 'Vida ZhìNéng QìGōng',
+      'stages.subtitle': 'AUREON',
       'stages.1.title':  'Recover Health',
       'stages.1.text':
-        'Benefits for people who need to recover their health',
+        'The first step: supporting those going through illness or imbalance who need to regain their well-being',
       'stages.2.title':  'Maintain and Elevate Health',
       'stages.2.text':
-        'For people who wish to maintain their health and even elevate it above average levels',
+        'For those who already feel well and wish to preserve their health — and even raise it above the average level',
       'stages.3.title':  'Develop Maximum Potential',
       'stages.3.text':
-        'For people who wish to develop their full physical, mental, and emotional potential to achieve the highest level a human being can reach',
+        'For those seeking to unfold their full physical, mental, and emotional potential, toward the highest level a human being can reach',
 
       /* — Benefits — */
       'benefits.title':  'Benefits of Practice',
-      'benefits.1':      'Strengthens the immune system',
-      'benefits.2':      'Increases concentration and analytical capacity',
-      'benefits.3':      'Improves emotional management',
-      'benefits.4':      'Improves circulation',
-      'benefits.5':      'Improves digestion',
-      'benefits.6':      'Improves sensitivity',
-      'benefits.7':      'Sight, hearing, smell, and all senses improve',
-      'benefits.8':      'Helps manage stress',
-      'benefits.9':      'Increases flexibility',
+      'benefits.1':      'Reinforces the immune system',
+      'benefits.2':      'Increases concentration and mental clarity',
+      'benefits.3':      'Supports emotional balance',
+      'benefits.4':      'Stimulates circulation',
+      'benefits.5':      'Promotes healthy digestion',
+      'benefits.6':      'Refines sensitivity and perception',
+      'benefits.7':      'Sharpens sight, hearing, and all the senses',
+      'benefits.8':      'Reduces and helps manage stress',
+      'benefits.9':      'Increases the body\'s flexibility',
       'benefits.10':     'Awakens the wisdom of body, emotions, and mind',
-      'benefits.11':     'Has the potential to eliminate all types of diseases',
-      'benefits.12':     'Helps live in peace and harmony',
-      'benefits.13':     'Can eliminate sleep disorders',
-      'benefits.14':     'Helps awaken joy',
-      'benefits.15':     'Improves self-esteem',
+      'benefits.11':     'Has the potential to reverse all kinds of ailments',
+      'benefits.12':     'Invites you to live in peace and harmony',
+      'benefits.13':     'Helps restore restful sleep',
+      'benefits.14':     'Rekindles the joy of living',
+      'benefits.15':     'Strengthens self-esteem',
 
       /* — FAQ — */
       'faq.title':       'Frequently Asked Questions',
 
-      'faq.1.q': 'What is ZhìNéng QìGōng?',
+      'faq.1.q': 'What exactly is ZhìNéng QìGōng?',
       'faq.1.a':
-        'It is the pinnacle of QìGōng development. It is an entire culture whose practice is carried out with a scientific attitude, promoting the changes we seek through a complete way of life involving physical and mental exercises, as well as the most evolved physical, emotional, and mental habits a human can cultivate.',
+        'It is the most evolved form of QìGōng: an entire culture practiced with a scientific attitude. The changes we seek do not come from an isolated exercise, but from a complete way of life that combines movement, mental work, and the most refined physical, emotional, and mental habits a person can cultivate.',
 
       'faq.2.q': 'Where does it come from?',
       'faq.2.a':
-        'It is the legacy of Dr. Pang He Ming, a doctor of Western and Traditional Chinese Medicine, heir to nineteen lineages of traditional QìGōng, and founder of the Huaxia Center — known as the world\'s largest hospital that operated without medication — sharing this treasure with over 3.8 million people.',
+        'It was born from the work of Dr. Pang He Ming, a physician in both Western and Traditional Chinese Medicine and heir to nineteen lineages of traditional QìGōng. He founded the Aureon Project, known as the world\'s largest medicine-free hospital, where this method reached more than 3.8 million people.',
 
-      'faq.3.q': 'Who can practice it?',
+      'faq.3.q': 'Do I need previous experience or any special condition?',
       'faq.3.a':
-        'It can be practiced by all types of people. It has nothing to do with political or religious movements, and it is neither a sport nor a martial art. Anyone who can follow simple instructions can practice it.',
+        'No. Anyone able to follow simple instructions can practice it, at any age and in any physical condition. It is not tied to political or religious movements, and it is neither a sport nor a martial art.',
 
-      'faq.4.q': 'What is its effectiveness?',
+      'faq.4.q': 'What results have been documented?',
       'faq.4.a':
-        'At the Huaxia Center, a 95% effectiveness rate was measured in reducing or fully recovering from over 180 conditions, after 24 days of 8-hour daily practice with the first level PengQìGuanDingFa.',
+        'At the Aureon Project, a 95% effectiveness rate was recorded in the improvement or full recovery from more than 180 conditions, after 24 days of 8-hour daily practice with the first level, PengQìGuanDingFa.',
 
-      'faq.5.q': 'How many levels exist?',
+      'faq.5.q': 'How are the practice levels organized?',
       'faq.5.a':
-        'Master Pang structured ZhìNéng QìGōng into 6 levels. Currently, only the first three have been opened: PengQìGuanDingFa, XingShenZhuang, and WuYuanZhuang. Each level works with increasingly deeper aspects of body, mind, and emotions.',
+        'Master Pang structured the system into 6 levels, of which the first three have been opened: PengQìGuanDingFa, XingShenZhuang, and WuYuanZhuang. Each level works with increasingly deeper aspects of body, mind, and emotions.',
 
-      'faq.6.q': 'Can I send Qì to another person?',
+      'faq.6.q': 'Is it possible to send Qì to another person?',
       'faq.6.a':
-        'Yes, there is a method called Fa Qì for sending Qì to people, animals, plants, or objects. It is a generous practice that elevates the practitioner\'s level, although each person must do their own transformative work.',
+        'Yes. There is a method called Fa Qì for sending Qì to people, animals, plants, or objects. It is a generous practice that also elevates the practitioner\'s level, although each person must carry out their own process of transformation.',
 
       /* — Testimonials — */
       'testimonials.title': 'Testimonials',
 
       'testimonial.1.text':
-        'I felt eager to work, eager to surpass myself every day and train to the maximum. I felt very satisfied with my work, and it was thanks to being open to learning new things like ZhìNéng QìGōng.',
-      'testimonial.1.author':   'Diego Rivera',
-      'testimonial.1.location': '13 Years Old, Veracruz',
+        'In the course I found that the healing techniques do not conflict with my beliefs and ideology, and I managed to stop feeling pain — a pain I had grown used to after years of living with it. For me, it was like opening a door to a life change. I highly recommend giving yourself the opportunity. Teacher Indira is extraordinary!',
+      'testimonial.1.author':   'Rebeca Cárdenas',
+      'testimonial.1.location': '59 years old',
 
       'testimonial.2.text':
-        'I feel as if I\'ve unlocked a file of ancient wisdom, and I\'m amazed at the drive I have to learn and do new things.',
-      'testimonial.2.author':   'Gaby Álvarez',
-      'testimonial.2.location': 'Colima, México',
-
-      'testimonial.3.text':
-        'Sometimes I feel I must carefully nurture, as if it were a cocoon, a seed opening, a newborn — just a little sprout of Qi that I cultivate in my practice, navigating in the Dan Tian with such a beautiful sensation!',
-      'testimonial.3.author':   'Magie Slim',
-      'testimonial.3.location': 'Puebla, México',
+        'Beyond the amazement, what I discovered was the certainty that when the mind grows still, the universe cooperates. That true power lies not in controlling, but in flowing with an awakened consciousness. All of this was possible thanks to my dear instructor Indira, whose wisdom and loving guidance made this experience a true awakening.',
+      'testimonial.2.author':   'Angélica Alamillo',
+      'testimonial.2.location': '61 years old',
 
       /* — Contact — */
       'contact.title':    'Contact',
       'contact.subtitle':
-        'Have questions? Write to us and we\'ll be happy to help.',
+        'Questions, or ready to enroll? Write to us — your message reaches us directly on WhatsApp.',
       'contact.name':              'Name',
       'contact.name.placeholder':  'Your name',
-      'contact.email':             'Email',
-      'contact.email.placeholder': 'So we can reply to you',
+      'contact.email':             'Email (optional)',
+      'contact.email.placeholder': 'In case you prefer a reply by email',
       'contact.subject':             'Subject',
       'contact.subject.placeholder': 'What would you like to talk about?',
       'contact.message':             'Message',
       'contact.message.placeholder': 'Write your message here...',
-      'contact.submit':  'Send Message',
-      'contact.success': 'Message sent successfully!',
-      'contact.error':   'Error sending. Please try again.',
+      'contact.submit':  'Send via WhatsApp',
+      'contact.success': 'Done! WhatsApp opened with your message.',
+      'contact.error':   'WhatsApp could not be opened. Please try again.',
+
+      /* — WhatsApp messages — */
+      'wa.course.msg':
+        'Hello 👋 I\'m interested in the course "{title}" and would like more information.',
+      'wa.generic.msg':
+        'Hello 👋 I would like more information about your courses and activities.',
+      'wa.membership.msg':
+        'Hello 👋 I\'m interested in the Qi Membership and would like more information.',
+      'wa.contact.intro':  'Hello, my name is',
+      'wa.contact.subject': 'Subject',
+      'wa.contact.email':   'Email',
+
+      /* — Promo banner buttons — */
+      'promo.more':    'More information',
+      'promo.next':    'Next',
+      'promo.contact': 'Contact via WhatsApp',
 
       /* — Footer — */
-      'footer.copy':    '© 2025 Vida ZhìNéng QìGōng. All rights reserved.',
+      'footer.copy':    '© 2025 AUREON. All rights reserved.',
 
       /* — Courses — */
       'courses.title':    'Courses & Sessions',
@@ -335,7 +424,7 @@
       /* — Virtual Classroom — */
       'nav.aula':            'Virtual Classroom',
       'courses.aulaCta':     'Enter the Virtual Classroom',
-      'aula.kicker':         'Vida ZhìNéng QìGōng',
+      'aula.kicker':         'AUREON',
       'aula.title':          'Virtual Classroom',
       'aula.loading':        'Loading lessons…',
       'aula.empty':          'No lessons published yet.',
@@ -358,6 +447,9 @@
       'aula.code.checking':  'Checking…',
       'aula.code.ok':        'Access granted!',
       'aula.code.wrong':     'Incorrect code. Please try again.',
+      'aula.code.wa':        'Request my code on WhatsApp',
+      'wa.code.msg':
+        'Hello 👋 I am an enrolled student and I need my access code for the Virtual Classroom.',
       'aula.open.desc':      'This content opens in a new tab.',
       'aula.open.cta':       'Open content',
 

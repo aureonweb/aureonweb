@@ -696,6 +696,18 @@ ul, ol {
   gap: 25px;
 }
 
+.testimonials-container.two-cols {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .testimonials-container.two-cols {
+    grid-template-columns: 1fr;
+  }
+}
+
 .testimonial-card {
   padding: 35px;
 }
