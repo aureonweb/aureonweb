@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-14T02:14:25.193Z",
+  "updatedAt": "2026-08-14T02:16:01.347Z",
   "settings": {
     "intro": {
       "es": "Bienvenido al Aula Virtual. Aquí encontrarás lecciones organizadas por módulos. El contenido marcado con 🔒 es exclusivo para alumnos inscritos.",
@@ -10,7 +10,7 @@
       "enabled": true,
       "salt": "KrqJneNGFbIs4Xd3rSGSLg==",
       "iterations": 150000,
-      "verifier": "v1:4/Ufyvz9MkUlR1vS:Pk7fJa3WrkR+SHiPqxiSb1wUPVc39D0eI80fDg==",
+      "verifier": "v1:plk0Sv2nTAJMi+HP:j6W1wN/8VK0NV9Jln5rQ6xWmxBOIofX/ZIuY4Q==",
       "hint": {
         "es": "Si eres alumno inscrito y no tienes tu código, escríbenos por WhatsApp.",
         "en": "If you are an enrolled student and do not have your code, contact us on WhatsApp."
@@ -282,7 +282,7 @@
           },
           "type": "youtube",
           "url": "",
-          "urlEnc": "v1:KFV3AHXPocdQzGw5:aZHMsDgIJ37UDWbAMxLHTsfvwhQp2geq2hxHdlnnsTARzOk9MExBAuDri2a0YQ68g7hpZWNzwT0F8Pk=",
+          "urlEnc": "v1:qkXBrCmJC48lkY3R:IM2XGIBndQibTDqM4gegeUl9JuczcmRa+kmG2gywuoeCTdQNaqqzHmDZHEMf8Qpv7qThidNwCzVMUPw=",
           "thumbnail": "assets/v02.png",
           "duration": "",
           "access": "inherit",
@@ -300,7 +300,7 @@
           },
           "type": "link",
           "url": "",
-          "urlEnc": "v1:3548woKovnqfi2cl:Flf0vK6doO8Is2k9uXcLMk7ARdd+jx4R+F2aVS8YUe4TovAX6TANwvzmLsTslgWKFtKmunytLQTNEdP1uXJnVUpWorsS3w==",
+          "urlEnc": "v1:JIMMMe+A57n7MMue:GD8r3yyPcJU8ck4KPdlXym5+VTOkWjM9mQYbeXy6CmzKi8hVXdvrT8IAoxKJKtfDCrg5hCAfsFEsJwyJryYmO7rpNnhJfg==",
           "thumbnail": "assets/v03.png",
           "duration": "",
           "access": "inherit",
@@ -333,8 +333,8 @@
             "es": "PRUEBA DE LECCIÓN",
             "en": ""
           },
-          "type": "youtube",
-          "url": "https://www.youtube.com/watch?v=VUNSv23SVbs",
+          "type": "drive",
+          "url": "https://drive.google.com/file/d/1iiBp27YwYD5aK-5KrLtrYr3C1uEeVm4y/view?usp=sharing",
           "urlEnc": "",
           "thumbnail": "https://aureonweb-swart.vercel.app/assets/h16.png",
           "duration": "20:54",
