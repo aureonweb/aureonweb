@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-14T02:16:01.347Z",
+  "updatedAt": "2026-08-14T02:19:09.567Z",
   "settings": {
     "intro": {
       "es": "Bienvenido al Aula Virtual. Aquí encontrarás lecciones organizadas por módulos. El contenido marcado con 🔒 es exclusivo para alumnos inscritos.",
@@ -10,7 +10,7 @@
       "enabled": true,
       "salt": "KrqJneNGFbIs4Xd3rSGSLg==",
       "iterations": 150000,
-      "verifier": "v1:plk0Sv2nTAJMi+HP:j6W1wN/8VK0NV9Jln5rQ6xWmxBOIofX/ZIuY4Q==",
+      "verifier": "v1:eaVaUsnpdPxt6NAi:Cn1abxcudbvrtatsiM/b3BUxGTI7EeEuVftnNQ==",
       "hint": {
         "es": "Si eres alumno inscrito y no tienes tu código, escríbenos por WhatsApp.",
         "en": "If you are an enrolled student and do not have your code, contact us on WhatsApp."
@@ -282,7 +282,7 @@
           },
           "type": "youtube",
           "url": "",
-          "urlEnc": "v1:qkXBrCmJC48lkY3R:IM2XGIBndQibTDqM4gegeUl9JuczcmRa+kmG2gywuoeCTdQNaqqzHmDZHEMf8Qpv7qThidNwCzVMUPw=",
+          "urlEnc": "v1:2CT6Xu//xKs4Xohu:ynfqx09hrEZOGMOxTIp/wC1d8LtiiIS/ijDxmOxXGycKgLFJWkZTR8RkPreIKMHsI9iEPVvaE4C4gCw=",
           "thumbnail": "assets/v02.png",
           "duration": "",
           "access": "inherit",
@@ -300,46 +300,11 @@
           },
           "type": "link",
           "url": "",
-          "urlEnc": "v1:JIMMMe+A57n7MMue:GD8r3yyPcJU8ck4KPdlXym5+VTOkWjM9mQYbeXy6CmzKi8hVXdvrT8IAoxKJKtfDCrg5hCAfsFEsJwyJryYmO7rpNnhJfg==",
+          "urlEnc": "v1:3vtWmkbqqun87/Ov:Cv7RR/Eq4zGeHjnEZ99AYXS4v67X/oP+YMNNR9WopS13ET5TZZ8hGb3lNDfF5By6hag3ZPK+/Su71od3QRyCQgwczhBhhw==",
           "thumbnail": "assets/v03.png",
           "duration": "",
           "access": "inherit",
           "order": 1
-        }
-      ]
-    },
-    {
-      "id": "mod-mssbapzq-zuytb",
-      "title": {
-        "es": "PRUEBA",
-        "en": ""
-      },
-      "description": {
-        "es": "PRUEBA",
-        "en": ""
-      },
-      "access": "public",
-      "profile": "all",
-      "cover": "https://aureonweb-swart.vercel.app/assets/h16.png",
-      "order": 2,
-      "lessons": [
-        {
-          "id": "les-mssbbtc7-pd23c",
-          "title": {
-            "es": "LECCIÓN DE PRUEBA",
-            "en": ""
-          },
-          "description": {
-            "es": "PRUEBA DE LECCIÓN",
-            "en": ""
-          },
-          "type": "drive",
-          "url": "https://drive.google.com/file/d/1iiBp27YwYD5aK-5KrLtrYr3C1uEeVm4y/view?usp=sharing",
-          "urlEnc": "",
-          "thumbnail": "https://aureonweb-swart.vercel.app/assets/h16.png",
-          "duration": "20:54",
-          "access": "inherit",
-          "order": 0
         }
       ]
     }
