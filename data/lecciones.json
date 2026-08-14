@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-14T02:09:45.722Z",
+  "updatedAt": "2026-08-14T02:10:58.259Z",
   "settings": {
     "intro": {
       "es": "Bienvenido al Aula Virtual. Aquí encontrarás lecciones organizadas por módulos. El contenido marcado con 🔒 es exclusivo para alumnos inscritos.",
@@ -10,7 +10,7 @@
       "enabled": true,
       "salt": "KrqJneNGFbIs4Xd3rSGSLg==",
       "iterations": 150000,
-      "verifier": "v1:1/qdqDtgyMgaMnj5:B5P6wwynagtOPd6TggWAYDXEmySAiWZAvd2rnw==",
+      "verifier": "v1:SJCjJwY4x1AS76or:yC6zffBAgT/5IkMweT6oZU12XsqiYAwKQpjNig==",
       "hint": {
         "es": "Si eres alumno inscrito y no tienes tu código, escríbenos por WhatsApp.",
         "en": "If you are an enrolled student and do not have your code, contact us on WhatsApp."
@@ -71,24 +71,6 @@
       },
       "image": "assets/h27.png",
       "order": 2
-    },
-    {
-      "id": "promo-mssb41hq-rbn25",
-      "title": {
-        "es": "PROMOCIÓN DE PRUEBA",
-        "en": ""
-      },
-      "text": {
-        "es": "PRUEBA CONEXIÓN&nbsp;",
-        "en": ""
-      },
-      "price": "Tag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepte",
-      "dates": {
-        "es": "MARZO 2028",
-        "en": ""
-      },
-      "image": "assets/s01.png",
-      "order": 3
     }
   ],
   "memberships": [
